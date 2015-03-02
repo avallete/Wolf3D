@@ -2,10 +2,7 @@
 
 void	init_screen(t_env *env)
 {
-	WIN(env, screen) = SDL_SetVideoMode(WINX, WINY, BPP, SDL_SWSURFACE);
-	WIN(env, wolf) = SDL_LoadBMP("src/wolf.bmp");
-	SDL_BlitSurface(WIN(env, wolf), NULL, WIN(env, screen), NULL);
-	SDL_Flip(WIN(env, screen));
+	WIN(env, win) = SDL_CreateWindow("Wolf3D", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINX, WINY, SDL_WINDOW_FULLSCREEN);
 	SDL_Delay(2000);
 }
 
@@ -16,13 +13,17 @@ int	main(int argc, char *argv[])
 
 	sur.wolf = NULL;
 	sur.screen = NULL;
+	sur.win = NULL;
 	env.surfaces = &sur;
 	if (argc && argv)
 	{
-	if ((SDL_Init(SDL_INIT_EVERYTHING)) > -1)
-	{
-		init_screen(&env);
-	}
+		if ((SDL_Init(SDL_INIT_EVERYTHING)) > -1)
+		{
+			init_screen(&env);
+			SDL_Quit();
+		}
+		else
+			ft_putsterr("SDL could not initialize\n");
 	}
 	return (0);
 }

@@ -13,7 +13,7 @@ INCF=$(addprefix $(INC_PATH), $(INC_NAME))
 INC=$(addprefix -I, $(INC_PATH))
 LIBSDL=-lSDLmain -lSDL
 LIBFT:=-L libft -lftprintf
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=#-Wall -Wextra -Werror
 CC=gcc
 NAME=Wolf3D
 RED=\033[0;31m
@@ -28,12 +28,12 @@ all: $(NAME)
 $(NAME):$(OBJ)
 	@make -s -C libft
 	@echo "${RED}Compile $(NAME) with $(CFLAGS)${NC}";
-	@gcc -I /usr/include/SDL2/ $(CLFAGS) $(OBJ) $(INC) $(LIBSDL) $(LIBFT) -o $(NAME)
+	@gcc $(CLFAGS) $(OBJ) $(pkg-config --cflags --libs sdl2) $(INC) $(LIBSDL) $(LIBFT) -o $(NAME)
 
 $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	@echo "${ORANGE}Create bynary $@ with $<${NC}";
-	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(INC) $(pkg-config --cflags --libs sdl2) -o $@ -c $< 
 
 clean:
 	@echo "${CYAN}Delete OBJ files${NC}"

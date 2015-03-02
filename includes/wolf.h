@@ -1,6 +1,5 @@
 #ifndef WOLF_H
 #define WOLF_H
-# include <SDL/SDL.h>
 # include <SDL2/SDL.h>
 # include "libft.h"
 # include "ft_printf.h"
@@ -14,6 +13,7 @@ typedef struct		s_win
 {
 	SDL_Surface	*wolf;
 	SDL_Surface	*screen;
+	SDL_Window	*win;
 }			t_win;
 
 typedef	struct		s_env
