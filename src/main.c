@@ -1,5 +1,30 @@
 # include "wolf.h"
 
+void	keyboard_keys(t_env *env)
+{
+	if (env->key->events.key.keysym.sym == SDLK_ESCAPE)
+		env->key->echap = 1;
+}
+
+void	key_hook(t_env *env)
+{
+	while(SDL_PollEvent(&(env->key->events)) != 0)
+	{
+		if (env->key->events.type == SDL_QUIT)
+			env->key->echap = 1;
+		else if (env->key->events.type == SDL_KEYDOWN)
+			keyboard_keys(env);
+	}
+}
+
+void	play_it(t_env *env)
+{
+	while (!(env->key->echap))
+	{
+		key_hook(env);
+	}
+}
+
 void	init_screen(t_env *env)
 {
 	WIN(env, win) = SDL_CreateWindow("Wolf3D", SDL_WINDOWPOS_CENTERED,\
@@ -12,22 +37,25 @@ void	init_screen(t_env *env)
 	}
 	else
 		ft_putsterr("Initialize window error, retry again !");
-	SDL_Delay(5000);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_env	env;
 	t_win	sur;
+	t_key	k;
 
 	sur.screen = NULL;
 	sur.win = NULL;
+	k.echap = 0;
 	env.surfaces = &sur;
+	env.key = &k;
 	if (argc && argv)
 	{
 		if ((SDL_Init(SDL_INIT_EVERYTHING)) > -1)
 		{
 			init_screen(&env);
+			play_it(&env);
 			SDL_DestroyWindow(sur.win);
 			SDL_Quit();
 		}
