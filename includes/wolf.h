@@ -11,7 +11,6 @@
 
 typedef struct		s_win
 {
-	SDL_Surface	*wolf;
 	SDL_Surface	*screen;
 	SDL_Window	*win;
 }			t_win;
