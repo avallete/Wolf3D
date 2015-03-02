@@ -1,7 +1,10 @@
-SRC_NAME:=ft_wolf.c
 SRC_PATH:=./src/
+SRC_NAME:=main.c
 INC_PATH=./includes/
-INC_NAME=libft.h
+INC_NAME=libft.h\
+	 get_next_line.h\
+	 ft_printf.h\
+	 wolf.h
 OBJ_PATH =./obj/
 OBJ_NAME=$(SRC_NAME:.c=.o)
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
@@ -18,13 +21,14 @@ LBLUE=\033[1;34m
 CYAN=\033[0;36m
 ORANGE=\033[0;33m
 NC=\033[0m
+DATE:=`date`
 
 all: $(NAME)
 
 $(NAME):$(OBJ)
 	@make -s -C libft
 	@echo "${RED}Compile $(NAME) with $(CFLAGS)${NC}";
-	@gcc $(CLFAGS) $(OBJ) $(INC) $(LIBMLX) $(LIBFT) -o $(NAME)
+	@gcc -I /usr/include/SDL2/ $(CLFAGS) $(OBJ) $(INC) $(LIBSDL) $(LIBFT) -o $(NAME)
 
 $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
@@ -38,6 +42,12 @@ clean:
 fclean: clean
 	@echo "${CYAN}Delete $(NAME) file${NC}"
 	@rm -rf $(NAME)
+
+push: fclean
+	make fclean -s -C libft
+	git add --all
+	git commit -m "$(DATE)"
+	git push
 
 re: fclean all clean
 
