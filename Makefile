@@ -11,9 +11,9 @@ SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INCF=$(addprefix $(INC_PATH), $(INC_NAME))
 INC=$(addprefix -I, $(INC_PATH))
-LIBSDL=-lSDLmain -lSDL
+LIBSDL=-lSDL2main -lSDL2
 LIBFT:=-L libft -lftprintf
-CFLAGS=#-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror
 CC=gcc
 NAME=Wolf3D
 RED=\033[0;31m
@@ -28,12 +28,12 @@ all: $(NAME)
 $(NAME):$(OBJ)
 	@make -s -C libft
 	@echo "${RED}Compile $(NAME) with $(CFLAGS)${NC}";
-	@gcc $(CLFAGS) $(OBJ) $(pkg-config --cflags --libs sdl2) $(INC) $(LIBSDL) $(LIBFT) -o $(NAME)
+	@gcc $(OBJ) $(CLFAGS) $(pkg-config --cflags --libs sdl2) $(INC) $(LIBFT) $(LIBSDL) -o $(NAME)
 
 $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	@echo "${ORANGE}Create bynary $@ with $<${NC}";
-	@$(CC) $(CFLAGS) $(INC) $(pkg-config --cflags --libs sdl2) -o $@ -c $< 
+	@$(CC) -c $< $(CFLAGS) $(INC) $(pkg-config --cflags --libs sdl2) $(LIBSDL) -o $@ 
 
 clean:
 	@echo "${CYAN}Delete OBJ files${NC}"
