@@ -44,10 +44,11 @@ fclean: clean
 	@rm -rf $(NAME)
 
 push: fclean
-	make fclean -s -C libft
-	git add --all
-	git commit -m "$(DATE)"
-	git push
+	@make fclean -s -C libft
+	@git add --all
+	@git commit -m "$(DATE)"
+	@git push
+	@echo "${CYAN}Clean and push all on git${NC}"
 
 re: fclean all clean
 
