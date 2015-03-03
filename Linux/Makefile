@@ -47,7 +47,7 @@ push: fclean
 	@echo "${CYAN}Clean and push all on git${NC}"
 	@make fclean -s -C libft
 	@find . -type f -name "*.sw[op]" -exec rm {} \;}
-	@git add --all
+	@git add --all *
 	@git commit -m "$(DATE)"
 	@git push -q
 
