@@ -1,18 +1,25 @@
 SRC_PATH:=./src/
-SRC_NAME:=main.c
+SRC_NAME:=	ft_wolf.c\
+		ft_init.c\
+		ft_keyhook.c\
+   		ft_map.c\
+		ft_mousehook.c
+
 INC_PATH=./includes/
-INC_NAME=libft.h\
-	 get_next_line.h\
-	 ft_printf.h\
-	 wolf.h
+INC_NAME=	libft.h\
+		get_next_line.h\
+		ft_printf.h\
+		ft_SDL.h\
+		ft_wolf.h
 OBJ_PATH =./obj/
 OBJ_NAME=$(SRC_NAME:.c=.o)
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
 OBJ=$(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INCF=$(addprefix $(INC_PATH), $(INC_NAME))
 INC=$(addprefix -I, $(INC_PATH))
-LIBSDL=-lSDL2main -lSDL2
-LIBFT:=-L libft -lftprintf
+LIBSDL=-I /usr/include/SLD2 -lSDL2
+LIBFT:=-L ftlibsdl/libft -lftprintf
+LIBFTSDL:=-L ftlibsdl -lftsdl
 CFLAGS=-Wall -Wextra -Werror
 CC=gcc
 NAME=Wolf3D
@@ -26,14 +33,15 @@ DATE:=`date`
 all: $(NAME)
 
 $(NAME):$(OBJ)
-	@make -s -C libft
+	@make -s -C ftlibsdl/libft
+	@make -s -C ftlibsdl
 	@echo "${RED}Compile $(NAME) with $(CFLAGS)${NC}";
-	@gcc $(OBJ) $(CLFAGS) $(pkg-config --cflags --libs sdl2) $(INC) $(LIBFT) $(LIBSDL) -o $(NAME)
+	@gcc $(OBJ) $(CLFAGS) $(LIBSDL) $(INC) $(LIBFT) $(LIBFTSDL) -lm -o $(NAME)
 
 $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	@echo "${ORANGE}Create bynary $@ with $<${NC}";
-	@$(CC) -c $< $(CFLAGS) $(INC) $(pkg-config --cflags --libs sdl2) $(LIBSDL) -o $@ 
+	@$(CC) $(CFLAGS) -I /usr/include/SDL2 $(INC) -o $@ -c $< 
 
 clean:
 	@echo "${CYAN}Delete OBJ files${NC}"
@@ -45,7 +53,8 @@ fclean: clean
 
 push: fclean
 	@echo "${CYAN}Clean and push all on git${NC}"
-	@make fclean -s -C libft
+	@make fclean -s -C ftlibsdl/libft
+	@make fclean -s -C ftlibsdl/
 	@find . -type f -name "*.sw[op]" -exec rm {} \;}
 	@git add --all *
 	@git commit -m "$(DATE)"

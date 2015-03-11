@@ -1,0 +1,34 @@
+#include "ft_wolf.h"
+
+void	init_player(t_player *player)
+{
+	player->pos.x = 1;
+	player->pos.y = 1;
+	player->head.x = 1;
+	player->head.y = 1;
+	player->head.rot = 0;
+	ft_bzero(player->dep, 4);
+	ft_bzero(player->rot, 4);
+}
+
+int	init_level(t_map *level, t_inf *inf, t_envSDL *sdl)
+{
+	level->map = ft_loadbmpSDL(sdl, inf->mappath);
+	level->floor = ft_newrectSDL(0, WINY(sdl) / 2, WINX(sdl), \
+			WINY(sdl) / 2);
+	level->sky = ft_newrectSDL(0, 0, WINX(sdl), WINY(sdl) / 2);
+	if (level->map)
+		return (0);
+	else
+	{
+		ft_putsterr("Map level can't be opened\n");
+		return (-1);
+	}
+}
+
+void	init_inf(t_inf *inf)
+{
+	inf->win = 0;
+	inf->level = 0;
+	inf->mappath = ft_strdup("res/levels/map0.bmp");
+}
