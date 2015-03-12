@@ -1,1 +1,1 @@
-../ftlibsdl/includes/get_next_line.h
+../ftlibsdl/MACOS/includes/get_next_line.h
