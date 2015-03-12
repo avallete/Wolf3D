@@ -1,6 +1,6 @@
 #include "ft_wolf.h"
 
-void	ft_keyboard(t_envSDL *sdl, SDL_Keysym k, void *data)
+void	ft_keyboard(t_envsdl *sdl, SDL_Keysym k, void *data)
 {
 	t_game *wolf;
 

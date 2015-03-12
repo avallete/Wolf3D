@@ -11,12 +11,12 @@ void	init_player(t_player *player)
 	ft_bzero(player->rot, 4);
 }
 
-int	init_level(t_map *level, t_inf *inf, t_envSDL *sdl)
+int	init_level(t_map *level, t_inf *inf, t_envsdl *sdl)
 {
-	level->map = ft_loadbmpSDL(sdl, inf->mappath);
-	level->floor = ft_newrectSDL(0, WINY(sdl) / 2, WINX(sdl), \
+	level->map = ft_loadbmp_sdl(sdl, inf->mappath);
+	level->floor = ft_newrect_sdl(0, WINY(sdl) / 2, WINX(sdl), \
 			WINY(sdl) / 2);
-	level->sky = ft_newrectSDL(0, 0, WINX(sdl), WINY(sdl) / 2);
+	level->sky = ft_newrect_sdl(0, 0, WINX(sdl), WINY(sdl) / 2);
 	if (level->map)
 		return (0);
 	else
