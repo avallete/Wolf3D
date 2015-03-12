@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_getpix.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/03/12 09:15:20 by avallete          #+#    #+#             */
+/*   Updated: 2015/03/12 10:26:07 by avallete         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_SDL.h"
 
-t_pixSDL	ft_getpix(SDL_Surface *img, int x, int y)
+t_pixsdl	ft_getpix(SDL_Surface *img, int x, int y)
 {
-	t_pixSDL pix;
-	Uint8 *p;
+	t_pixsdl	pix;
+	Uint8		*p;
 
 	pix.x = x;
 	pix.y = y;
