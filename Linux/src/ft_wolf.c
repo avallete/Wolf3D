@@ -11,6 +11,30 @@ int	test_pix(t_game *wolf)
 	return (0);
 }
 
+int		check_x(t_game *wolf)
+{
+	int inc;
+
+	CAM(wolf).rot > 0 ? (beg = (PLRPOS(wolf).y / WALLSIZE) * (WALLSIZE - 1)) :\
+	(beg = (PLRPOS(wolf).y) * WALLSIZE + WALLSIZE);
+
+}
+
+void	print_wall(t_game *wolf)
+{
+	int x;
+	int v;
+	int h;
+
+	x = 0;
+	while (x < WINX(wolf->sdl))
+	{
+		h = check_x(t_game *wolf);
+		x++;
+	}
+}
+
+
 void	play_level(t_game *wolf)
 {
 	const Uint8 *kb;
@@ -18,6 +42,7 @@ void	play_level(t_game *wolf)
 	kb = SDL_GetKeyboardState(NULL);
 	SDL_FillRect(WIN(wolf->sdl, screen), &FLOOR(wolf), 0xff906200);
 	SDL_FillRect(WIN(wolf->sdl, screen), &SKY(wolf), 0xff00b89e);
+	wolf->player->dist = DIST(((WINX(wolf->sdl)) / 2));
 	while ((!(wolf->sdl->key->echap)) && (!(wolf->inf->win)))
 	{
 		ft_printf("dep: %d.%d.%d.%d\n", wolf->player->dep[0], \

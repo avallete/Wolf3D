@@ -1,13 +1,16 @@
 #ifndef FT_WOLF_H
 # define FT_WOLF_H
 # define WALL 0
+# define FOV 60
 # define WALLSIZE 64
 # define SPACE 0xff
-# define PLAYER(e) e->player
-# define PLRPOS(e) e->player->pos
-# define RAY(e) e->player->ray
-# define SKY(e) e->level->sky
+# define PLAYER(e)	e->player
+# define CAM(e)		e->cam
+# define PLRPOS(e)	e->player->pos
+# define RAY(e)		e->player->ray
+# define SKY(e)		e->level->sky
 # define FLOOR(e) e->level->floor
+# define DIST(x) ((x / (tan(30 * M_PI / 180))))
 # include "ft_SDL.h"
 # include <math.h>
 
@@ -37,27 +40,12 @@ typedef	struct		s_map
 	SDL_Rect		sky;
 }					t_map;
 
-typedef	struct		s_ray
-{
-	int				cpx;
-	int				cpy;
-	int				incx;
-	int				incy;
-	double			px;
-	double			py;
-	double			dx;
-	double			dy;
-	double			sdx;
-	double			sdy;
-	double			dtx;
-	double			dty;
-}					t_ray;
-
 typedef	struct		s_player
 {
 	t_vec			pos;
 	t_cam			head;
-	t_ray			ray;
+	double			hight;
+	double			dist;
 	char			dep[4];
 	char			rot[4];
 }					t_player;
