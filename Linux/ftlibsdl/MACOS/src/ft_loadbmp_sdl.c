@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_SDL.h"
+#include "ft_sdl.h"
 
 SDL_Surface	*ft_loadbmp_sdl(t_envsdl *env, const char *path)
 {

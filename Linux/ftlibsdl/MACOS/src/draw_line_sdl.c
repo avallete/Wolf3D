@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_SDL.h>
+#include <ft_sdl.h>
 
 static void		draw_dy(SDL_Surface *s, t_pixsdl *start, int *dir)
 {

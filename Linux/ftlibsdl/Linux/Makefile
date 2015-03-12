@@ -1,13 +1,13 @@
 SRC_PATH:=./src/
-SRC_NAME=	ft_launchSDL.c\
-		ft_keyhookSDL.c\
-		ft_exposeSDL.c\
-		ft_loadbmpSDL.c\
-		draw_pixSDL.c\
-		ft_newrectSDL.c\
-		ft_getpix.c\
-		ft_freeSDL.c\
-		draw_lineSDL.c
+SRC_NAME=	draw_line_sdl.c\
+		draw_pix_sdl.c\
+    		ft_expose_sdl.c\
+    		ft_free_sdl.c\
+    		ft_getpix.c\
+    		ft_keyhook_sdl.c\
+   		ft_launch_sdl.c\
+   		ft_loadbmp_sdl.c\
+    		ft_newrect_sdl.c
 INC_PATH=./includes/
 INC_NAME=libft.h\
 	 get_next_line.h\

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_SDL.h>
+#include <ft_sdl.h>
 
 void	draw_pix_sdl(SDL_Surface *surface, t_pixsdl *pix)
 {

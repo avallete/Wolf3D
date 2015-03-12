@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_SDL.h"
+#include "ft_sdl.h"
 
 static void		check_eventype(t_envsdl *env, void *data, \
 		void (*key)(t_envsdl *env, SDL_Keysym c, void *data), \

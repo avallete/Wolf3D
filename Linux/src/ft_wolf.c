@@ -1,35 +1,12 @@
 #include "ft_wolf.h"
 
-int	test_pix(t_game *wolf)
-{
-	t_pixsdl pix;
-
-	pix = ft_getpix(wolf->level->map, RAY(wolf).cpx, RAY(wolf).cpy);
-	ft_printf("color = %lx\n", pix.color);
-	if (pix.color == 0)
-		return (1);
-	return (0);
-}
-
-int		check_x(t_game *wolf)
-{
-	int inc;
-
-	CAM(wolf).rot > 0 ? (beg = (PLRPOS(wolf).y / WALLSIZE) * (WALLSIZE - 1)) :\
-	(beg = (PLRPOS(wolf).y) * WALLSIZE + WALLSIZE);
-
-}
-
 void	print_wall(t_game *wolf)
 {
-	int x;
-	int v;
-	int h;
+	unsigned int x;
 
 	x = 0;
 	while (x < WINX(wolf->sdl))
 	{
-		h = check_x(t_game *wolf);
 		x++;
 	}
 }
@@ -42,9 +19,10 @@ void	play_level(t_game *wolf)
 	kb = SDL_GetKeyboardState(NULL);
 	SDL_FillRect(WIN(wolf->sdl, screen), &FLOOR(wolf), 0xff906200);
 	SDL_FillRect(WIN(wolf->sdl, screen), &SKY(wolf), 0xff00b89e);
-	wolf->player->dist = DIST(((WINX(wolf->sdl)) / 2));
+	wolf->player->dist = ((WINX(wolf->sdl) / 2) / tan(0.5235987755983));
 	while ((!(wolf->sdl->key->echap)) && (!(wolf->inf->win)))
 	{
+		printf("%e\n", wolf->player->dist);
 		ft_printf("dep: %d.%d.%d.%d\n", wolf->player->dep[0], \
 		wolf->player->dep[1], wolf->player->dep[2], wolf->player->dep[3]);
 		ft_bzero(wolf->player->dep, 4);

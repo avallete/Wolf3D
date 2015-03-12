@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_SDL.h"
+#include "ft_sdl.h"
 
 static int	init_window(t_envsdl *e, void (*f)(t_envsdl *env))
 {

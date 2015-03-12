@@ -1,1 +1,0 @@
-../ftlibsdl/MACOS/includes/ft_SDL.h

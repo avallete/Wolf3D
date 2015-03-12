@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_SDL.h"
+#include "ft_sdl.h"
 
 t_pixsdl	ft_getpix(SDL_Surface *img, int x, int y)
 {

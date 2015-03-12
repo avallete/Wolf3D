@@ -11,7 +11,7 @@ SRC_NAME=draw_line_sdl.c\
 INC_PATH=./includes/
 INC_NAME=libft.h\
 	 get_next_line.h\
-	 ft_SDL.h\
+	 ft_sdl.h\
 	 ft_printf.h
 OBJ_PATH =./obj/
 OBJ_NAME=$(SRC_NAME:.c=.o)

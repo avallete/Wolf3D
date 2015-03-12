@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_SDL.h"
+#include "ft_sdl.h"
 
 SDL_Rect	ft_newrect_sdl(int x, int y, size_t width, size_t hight)
 {

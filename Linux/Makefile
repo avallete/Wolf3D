@@ -9,7 +9,7 @@ INC_PATH=./includes/
 INC_NAME=	libft.h\
 		get_next_line.h\
 		ft_printf.h\
-		ft_SDL.h\
+		ft_sdl.h\
 		ft_wolf.h
 OBJ_PATH =./obj/
 OBJ_NAME=$(SRC_NAME:.c=.o)
@@ -18,8 +18,8 @@ OBJ=$(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INCF=$(addprefix $(INC_PATH), $(INC_NAME))
 INC=$(addprefix -I, $(INC_PATH))
 LIBSDL=-I /usr/include/SLD2 -lSDL2
-LIBFT:=-L ftlibsdl/libft -lftprintf
-LIBFTSDL:=-L ftlibsdl -lftsdl
+LIBFT:=-L ftlibsdl/Linux/libft -lftprintf
+LIBFTSDL:=-L ftlibsdl/Linux -lftsdl
 CFLAGS=-Wall -Wextra -Werror
 CC=gcc
 NAME=Wolf3D
@@ -33,8 +33,8 @@ DATE:=`date`
 all: $(NAME)
 
 $(NAME):$(OBJ)
-	@make -s -C ftlibsdl/libft
-	@make -s -C ftlibsdl
+	@make -s -C ftlibsdl/Linux/libft
+	@make -s -C ftlibsdl/Linux/
 	@echo "${RED}Compile $(NAME) with $(CFLAGS)${NC}";
 	@gcc $(OBJ) $(CLFAGS) $(LIBSDL) $(INC) $(LIBFT) $(LIBFTSDL) -lm -o $(NAME)
 
@@ -53,10 +53,10 @@ fclean: clean
 
 push: fclean
 	@echo "${CYAN}Clean and push all on git${NC}"
-	@make fclean -s -C ftlibsdl/libft
-	@make fclean -s -C ftlibsdl/
-	@find . -type f -name "*.sw[op]" -exec rm {} \;}
-	@git add --all *
+	@make fclean -s -C ftlibsdl/Linux/libft
+	@make fclean -s -C ftlibsdl/Linux/
+	@find ../ -type f -name "*.sw[op]" -exec rm {} \;
+	@git add --all ../
 	@git commit -m "$(DATE)"
 	@git push -q
 

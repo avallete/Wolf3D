@@ -4,9 +4,9 @@ void	init_player(t_player *player)
 {
 	player->pos.x = 1;
 	player->pos.y = 1;
-	player->head.x = 1;
-	player->head.y = 1;
-	player->head.rot = 0;
+	player->cam.x = 1;
+	player->cam.y = 1;
+	player->cam.rot = 0;
 	player->hight = WALLSIZE / 2;
 	ft_bzero(player->dep, 4);
 	ft_bzero(player->rot, 4);

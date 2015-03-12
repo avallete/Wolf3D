@@ -5,14 +5,15 @@
 # define WALLSIZE 64
 # define SPACE 0xff
 # define PLAYER(e)	e->player
-# define CAM(e)		e->cam
+# define CAM(e)		e->player->cam
 # define PLRPOS(e)	e->player->pos
-# define RAY(e)		e->player->ray
 # define SKY(e)		e->level->sky
 # define FLOOR(e) e->level->floor
 # define DIST(x) ((x / (tan(30 * M_PI / 180))))
-# include "ft_SDL.h"
+# define RAD(x)	(x * 0.017453292519943)
+# include "ft_sdl.h"
 # include <math.h>
+# include <stdio.h>
 
 typedef	struct		s_vec
 {
@@ -43,7 +44,7 @@ typedef	struct		s_map
 typedef	struct		s_player
 {
 	t_vec			pos;
-	t_cam			head;
+	t_cam			cam;
 	double			hight;
 	double			dist;
 	char			dep[4];
