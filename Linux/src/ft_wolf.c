@@ -4,15 +4,15 @@ void	init_ray(t_game *wolf, int x, t_ray *ray)
 {
 	int		camx;
 
-	camx = (((2 * x) / WINX(wolf->sdl)) - 1);
+	camx = ((((2 * x) / WINX(wolf->sdl))) - 1);
 	ray->x = CAM(wolf).x;
 	ray->y = CAM(wolf).y;
-	ray->dx = CAM(wolf).dx + PLAN(wolf).x * camx;
-	ray->dy = CAM(wolf).dy + PLAN(wolf).y * camx;
+	ray->dx = (CAM(wolf).dx + PLAN(wolf).x) * camx;
+	ray->dy = (CAM(wolf).dy + PLAN(wolf).y) * camx;
 	ray->px = (int)ray->x;
 	ray->py = (int)ray->y;
-	ray->dltx = sqrt(1 + (ray->dx * ray->dy) / (ray->dx * ray->dx));
-	ray->dlty = sqrt(1 + (ray->dx * ray->dx) / (ray->dy * ray->dy));
+	ray->dltx = sqrt(1 + ((ray->dx * ray->dy) / (ray->dx * ray->dx)));
+	ray->dlty = sqrt(1 + ((ray->dx * ray->dx) / (ray->dy * ray->dy)));
 	ray->dx < 0 ? (ray->incx = -1) : (ray->incx = 1);
 	ray->dx < 0 ? (ray->sdx = (ray->x - ray->px) * ray->dltx) :\
 	(ray->sdx = (ray->px + 1 - ray->x) * ray->dltx);
@@ -49,7 +49,7 @@ void	trace_col(t_game *wolf, t_ray *ray, int x)
 	hight = (int)abs((WINY(wolf->sdl) / persp));
 	start.x = x;
 	start.y = (int)(-hight / 2 + (WINY(wolf->sdl)) / 2);
-	ray->side == 1 ? (start.color = 0x5f8ea6) : (start.color = 0x78ff51e);
+	ray->side == 1 ? (start.color = 0x5f8ea6) : (start.color = 0x5f8e90);
 	end.x = x;
 	end.y = (int)(hight / 2 + (WINY(wolf->sdl)) / 2);
 	if (start.y < 0)
@@ -72,11 +72,12 @@ void	print_wall(t_game *wolf)
 	{
 		hit = 0;
 		init_ray(wolf, x, &ray);
+		ft_printf("dir : %d:%d\n", ray.dx, ray.dy);
 		while (hit == 0)
 		{
 			increment_ray(&ray);
 			pix = ft_getpix(MAPLVL(wolf), ray.px, ray.py);
-			pix.color == 0 ? (hit = 1) : (hit = 0);
+			pix.color == 0x000000 ? (hit = 1) : (hit = 0);
 		}
 		trace_col(wolf, &ray, x);
 		x++;
@@ -92,20 +93,91 @@ void	draw_background(t_game *wolf)
 	SDL_UnlockSurface(WIN(wolf->sdl, screen));
 }
 
+void	avancer(t_game *w)
+{
+	int x;
+	int y;
+	t_pixsdl pix;
+
+	x = PLAYER(w)->pos.x + CAM(w).dx;
+	y = PLAYER(w)->pos.y + CAM(w).dy;
+	pix = ft_getpix(MAPLVL(w), x, y);
+	if (pix.color != 0)
+	{
+		PLAYER(w)->pos.x = x;
+		CAM(w).x = x;
+		PLAYER(w)->pos.y = y;
+		CAM(w).y = y;
+	}
+}
+
+void	reculer(t_game *w)
+{
+	int x;
+	int y;
+	t_pixsdl pix;
+
+	x = PLAYER(w)->pos.x - CAM(w).dx;
+	y = PLAYER(w)->pos.y - CAM(w).dy;
+	pix = ft_getpix(MAPLVL(w), x, y);
+	if (pix.color != 0)
+	{
+		PLAYER(w)->pos.x = x;
+		CAM(w).x = x;
+		PLAYER(w)->pos.y = y;
+		CAM(w).y = y;
+	}
+}
+
+void	gauche(t_game *w)
+{
+	int x;
+	int y;
+	t_pixsdl pix;
+
+	x = PLAYER(w)->pos.x - PLAYER(w)->plan.x;
+	y = PLAYER(w)->pos.y - PLAYER(w)->plan.y;
+	pix = ft_getpix(MAPLVL(w), x, y);
+	if (pix.color != 0)
+	{
+		PLAYER(w)->pos.x = x;
+		CAM(w).x = x;
+		PLAYER(w)->pos.y = y;
+		CAM(w).y = y;
+	}
+}
+
+void	droite(t_game *w)
+{
+	int x;
+	int y;
+	t_pixsdl pix;
+
+	x = PLAYER(w)->pos.x + PLAYER(w)->plan.x;
+	y = PLAYER(w)->pos.y + PLAYER(w)->plan.y;
+	pix = ft_getpix(MAPLVL(w), x, y);
+	if (pix.color != 0)
+	{
+		PLAYER(w)->pos.x = x;
+		CAM(w).x = x;
+		PLAYER(w)->pos.y = y;
+		CAM(w).y = y;
+	}
+}
+
+
+
 void	move(t_game *wolf)
 {
-	t_pixsdl pix;
 	if (PLAYER(wolf)->dep[0])
-	{
-		pix = ft_getpix(MAPLVL(wolf), PLAYER(wolf)->pos.x, PLAYER(wolf)->pos.y);
-		if (pix.color > 0)
-		{
-		PLAYER(wolf)->pos.x += PLAYER(wolf)->cam.dx * 1;
-		PLAYER(wolf)->cam.x += PLAYER(wolf)->cam.dx * 1;
-		PLAYER(wolf)->pos.y += PLAYER(wolf)->cam.dy * 1;
-		PLAYER(wolf)->cam.y += PLAYER(wolf)->cam.dy * 1;
-		}
-	}
+		avancer(wolf);
+	if (PLAYER(wolf)->dep[1])
+		reculer(wolf);
+	if (PLAYER(wolf)->dep[2])
+		gauche(wolf);
+	if (PLAYER(wolf)->dep[3])
+		droite(wolf);
+	printf("posplayer %d:%d\n", PLAYER(wolf)->pos.x, PLAYER(wolf)->pos.y);
 }
 
 void	play_level(t_game *wolf)
@@ -157,7 +229,7 @@ int	main(int argc, char **argv)
 	if (argc && argv)
 	{
 		if (SDL_Init(SDL_INIT_EVERYTHING) > -1)
-			ft_launch_sdl(ft_wolf, 320, 200, 4);
+			ft_launch_sdl(ft_wolf, 500, 500, 4);
 		else
 		{
 			ft_putsterr("SDL Could not initialize\n");

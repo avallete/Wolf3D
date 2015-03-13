@@ -71,7 +71,7 @@ typedef	struct		s_map
 typedef	struct		s_player
 {
 	t_vec			pos;
-	t_vec			plan;
+	t_nc			plan;
 	t_cam			cam;
 	double			hight;
 	double			dist;

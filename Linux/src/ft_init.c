@@ -2,10 +2,10 @@
 
 void	init_player(t_player *player)
 {
-	player->pos.x = 4;
-	player->pos.y = 4;
-	player->cam.x = 4;
-	player->cam.y = 4.5;
+	player->pos.x = 10;
+	player->pos.y = 14;
+	player->cam.x = 10;
+	player->cam.y = 14;
 	player->cam.dx = -1;
 	player->cam.dy = 0;
 	player->plan.x = 0;
