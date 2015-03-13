@@ -2,11 +2,14 @@
 
 void	init_player(t_player *player)
 {
-	player->pos.x = 1;
-	player->pos.y = 1;
-	player->cam.x = 1;
-	player->cam.y = 1;
-	player->cam.rot = 0;
+	player->pos.x = 4;
+	player->pos.y = 4;
+	player->cam.x = 4;
+	player->cam.y = 4.5;
+	player->cam.dx = -1;
+	player->cam.dy = 0;
+	player->plan.x = 0;
+	player->plan.y = 1;
 	player->hight = WALLSIZE / 2;
 	ft_bzero(player->dep, 4);
 	ft_bzero(player->rot, 4);

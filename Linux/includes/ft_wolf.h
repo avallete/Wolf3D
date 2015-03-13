@@ -5,9 +5,11 @@
 # define WALLSIZE 64
 # define SPACE 0xff
 # define PLAYER(e)	e->player
+# define PLRPOS(e)	e->player_>pos
 # define CAM(e)		e->player->cam
-# define PLRPOS(e)	e->player->pos
 # define SKY(e)		e->level->sky
+# define MAPLVL(e)	e->level->map
+# define PLAN(e)	e->player->plan
 # define FLOOR(e) e->level->floor
 # define DIST(x) ((x / (tan(30 * M_PI / 180))))
 # define RAD(x)	(x * 0.017453292519943)
@@ -15,7 +17,14 @@
 # include <math.h>
 # include <stdio.h>
 
-typedef	struct		s_vec
+typedef	struct				s_wall
+{
+	int				x;
+	int				y;
+	int				size;
+}					t_wall;
+
+typedef	struct				s_vec
 {
 	int				x;
 	int				y;
@@ -23,9 +32,10 @@ typedef	struct		s_vec
 
 typedef	struct		s_cam
 {
-	int				x;
-	int				y;
-	double			rot;
+	double				x;
+	double				y;
+	double				dx;
+	double				dy;
 }					t_cam;
 
 typedef	struct		s_nc
@@ -36,9 +46,19 @@ typedef	struct		s_nc
 
 typedef	struct				s_ray
 {
+	int				px;
+	int				py;
 	double				x;
 	double				y;
-	double				r;
+	double				dx;
+	double				dy;
+	double				dltx;
+	double				dlty;
+	double				sdx;
+	double				sdy;
+	int				incx;
+	int				incy;
+	char				side;
 }					t_ray;
 
 typedef	struct		s_map
@@ -51,6 +71,7 @@ typedef	struct		s_map
 typedef	struct		s_player
 {
 	t_vec			pos;
+	t_vec			plan;
 	t_cam			cam;
 	double			hight;
 	double			dist;
