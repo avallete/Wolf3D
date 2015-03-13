@@ -19,10 +19,10 @@ void	play_level(t_game *wolf)
 	kb = SDL_GetKeyboardState(NULL);
 	SDL_FillRect(WIN(wolf->sdl, screen), &FLOOR(wolf), 0xff906200);
 	SDL_FillRect(WIN(wolf->sdl, screen), &SKY(wolf), 0xff00b89e);
-	wolf->player->dist = ((WINX(wolf->sdl) / 2) / tan(0.5235987755983));
+	wolf->player->dist = ((WINX(wolf->sdl) / 2) / tan(RAD(FOV / 2)));
+	print_wall(wolf);
 	while ((!(wolf->sdl->key->echap)) && (!(wolf->inf->win)))
 	{
-		printf("%e\n", wolf->player->dist);
 		ft_printf("dep: %d.%d.%d.%d\n", wolf->player->dep[0], \
 		wolf->player->dep[1], wolf->player->dep[2], wolf->player->dep[3]);
 		ft_bzero(wolf->player->dep, 4);

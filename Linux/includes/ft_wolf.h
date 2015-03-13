@@ -34,6 +34,13 @@ typedef	struct		s_nc
 	double			y;
 }					t_nc;
 
+typedef	struct				s_ray
+{
+	double				x;
+	double				y;
+	double				r;
+}					t_ray;
+
 typedef	struct		s_map
 {
 	SDL_Surface		*map;
