@@ -1,21 +1,23 @@
 #ifndef FT_WOLF_H
 # define FT_WOLF_H
+# define WX(e) WINX(e->sdl)
+# define WY(e) WINY(e->sdl)
+# define CX(e) WINX(e->sdl) / 2
+# define CY(e) WINY(e->sdl) / 2
 # define WALL 0
-# define FOV 60
 # define WALLSIZE 64
 # define SPACE 0xff
+# define RAD(x)	(x * 0.017453292519943)
 # define PLAYER(e)	e->player
-# define PLRPOS(e)	e->player_>pos
-# define CAM(e)		e->player->cam
+# define PLRPOS(e)	e->player->pos
 # define SKY(e)		e->level->sky
 # define MAPLVL(e)	e->level->map
-# define PLAN(e)	e->player->plan
-# define FLOOR(e) e->level->floor
-# define DIST(x) ((x / (tan(30 * M_PI / 180))))
-# define RAD(x)	(x * 0.017453292519943)
+# define FLOOR(e) 	e->level->floor
+# define DIST(e) ((WX(e) / (tan(RAD(e->player->fov / 2) * RAD(M_PI / 180)))))
+# define FOV(e)		e->player->fov
+# include <stdio.h>
 # include "ft_sdl.h"
 # include <math.h>
-# include <stdio.h>
 
 typedef	struct				s_wall
 {
@@ -28,36 +30,20 @@ typedef	struct				s_vec
 {
 	int				x;
 	int				y;
+	double			rot;
 }					t_vec;
-
-typedef	struct		s_cam
-{
-	double				x;
-	double				y;
-	double				dx;
-	double				dy;
-}					t_cam;
-
-typedef	struct		s_nc
-{
-	double			x;
-	double			y;
-}					t_nc;
 
 typedef	struct				s_ray
 {
-	int				px;
-	int				py;
 	double				x;
 	double				y;
-	double				dx;
-	double				dy;
-	double				dltx;
-	double				dlty;
+	t_pixsdl			mapos;
+	double				rot;
+	double				xa;
+	double				ya;
 	double				sdx;
 	double				sdy;
-	int				incx;
-	int				incy;
+	double				radinc;
 	char				side;
 }					t_ray;
 
@@ -71,10 +57,10 @@ typedef	struct		s_map
 typedef	struct		s_player
 {
 	t_vec			pos;
-	t_nc			plan;
-	t_cam			cam;
-	double			hight;
+	t_pixsdl		map;
+	double			fov;
 	double			dist;
+	int				hight;
 	char			dep[4];
 	char			rot[4];
 }					t_player;

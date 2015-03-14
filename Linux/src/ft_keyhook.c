@@ -9,11 +9,11 @@ void	ft_keyboard(t_envsdl *sdl, SDL_Keysym k, void *data)
 		data = data;
 	if (k.sym == SDLK_ESCAPE)
 		sdl->key->echap = 1;
-	if (k.sym == SDLK_z || k.sym == SDLK_s)
-		k.sym == SDLK_z ? (wolf->player->dep[0] = 1) \
+	if (k.sym == SDLK_w || k.sym == SDLK_s)
+		k.sym == SDLK_w ? (wolf->player->dep[0] = 1) \
 		: (wolf->player->dep[1] = 1);
-	if (k.sym == SDLK_q || k.sym == SDLK_d)
-		k.sym == SDLK_q ? (wolf->player->dep[2] = 1) \
+	if (k.sym == SDLK_a || k.sym == SDLK_d)
+		k.sym == SDLK_a ? (wolf->player->dep[2] = 1) \
 		: (wolf->player->dep[3] = 1);
 	if (k.sym == SDLK_LEFT || k.sym == SDLK_RIGHT)
 		k.sym == SDLK_LEFT ? (wolf->player->rot[1] = 1) \

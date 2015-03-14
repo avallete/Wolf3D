@@ -1,90 +1,5 @@
 #include "ft_wolf.h"
 
-void	init_ray(t_game *wolf, int x, t_ray *ray)
-{
-	int		camx;
-
-	camx = ((((2 * x) / WINX(wolf->sdl))) - 1);
-	ray->x = CAM(wolf).x;
-	ray->y = CAM(wolf).y;
-	ray->dx = (CAM(wolf).dx + PLAN(wolf).x) * camx;
-	ray->dy = (CAM(wolf).dy + PLAN(wolf).y) * camx;
-	ray->px = (int)ray->x;
-	ray->py = (int)ray->y;
-	ray->dltx = sqrt(1 + ((ray->dx * ray->dy) / (ray->dx * ray->dx)));
-	ray->dlty = sqrt(1 + ((ray->dx * ray->dx) / (ray->dy * ray->dy)));
-	ray->dx < 0 ? (ray->incx = -1) : (ray->incx = 1);
-	ray->dx < 0 ? (ray->sdx = (ray->x - ray->px) * ray->dltx) :\
-	(ray->sdx = (ray->px + 1 - ray->x) * ray->dltx);
-	ray->dy < 0 ? (ray->incy = -1) : (ray->incy = 1);
-	ray->dy < 0 ? (ray->sdx = (ray->y - ray->py) * ray->dlty) :\
-	(ray->sdx = (ray->py + 1 - ray->y) * ray->dlty);
-}
-
-void	increment_ray(t_ray *ray)
-{
-	if (ray->sdx < ray->sdy)
-	{
-		ray->sdx += ray->dltx;
-		ray->px += ray->incx;
-		ray->side = 0;
-	}
-	else
-	{
-		ray->sdy += ray->dlty;
-		ray->py += ray->incy;
-		ray->side = 1;
-	}
-}
-
-void	trace_col(t_game *wolf, t_ray *ray, int x)
-{
-	double		persp;
-	int		hight;
-	t_pixsdl	start;
-	t_pixsdl	end;
-
-	ray->side == 0 ? (persp = abs((ray->px - ray->x) + ((1 - ray->incx) / 2) / ray->dx)) :\
-	(persp = abs((ray->py - ray->y) + ((1 - ray->incy) / 2) / ray->dy));
-	hight = (int)abs((WINY(wolf->sdl) / persp));
-	start.x = x;
-	start.y = (int)(-hight / 2 + (WINY(wolf->sdl)) / 2);
-	ray->side == 1 ? (start.color = 0x5f8ea6) : (start.color = 0x5f8e90);
-	end.x = x;
-	end.y = (int)(hight / 2 + (WINY(wolf->sdl)) / 2);
-	if (start.y < 0)
-		start.y = 0;
-	if (end.y >= (int)WINY(wolf->sdl))
-		end.y = WINY(wolf->sdl) - 1;
-	draw_line_sdl(WIN(wolf->sdl, screen), start, end);
-}
-
-void	print_wall(t_game *wolf)
-{
-	unsigned int	x;
-	char		hit;
-	t_pixsdl	pix;
-	t_ray		ray;
-
-	x = 0;
-	SDL_LockSurface(WIN(wolf->sdl, screen));
-	while (x < WINX(wolf->sdl))
-	{
-		hit = 0;
-		init_ray(wolf, x, &ray);
-		ft_printf("dir : %d:%d\n", ray.dx, ray.dy);
-		while (hit == 0)
-		{
-			increment_ray(&ray);
-			pix = ft_getpix(MAPLVL(wolf), ray.px, ray.py);
-			pix.color == 0x000000 ? (hit = 1) : (hit = 0);
-		}
-		trace_col(wolf, &ray, x);
-		x++;
-	}
-	SDL_UnlockSurface(WIN(wolf->sdl, screen));
-}
-
 void	draw_background(t_game *wolf)
 {
 	SDL_LockSurface(WIN(wolf->sdl, screen));
@@ -93,105 +8,54 @@ void	draw_background(t_game *wolf)
 	SDL_UnlockSurface(WIN(wolf->sdl, screen));
 }
 
-void	avancer(t_game *w)
+void	inc_ray(t_game *e, t_ray *ray)
 {
-	int x;
-	int y;
-	t_pixsdl pix;
-
-	x = PLAYER(w)->pos.x + CAM(w).dx;
-	y = PLAYER(w)->pos.y + CAM(w).dy;
-	pix = ft_getpix(MAPLVL(w), x, y);
-	if (pix.color != 0)
-	{
-		PLAYER(w)->pos.x = x;
-		CAM(w).x = x;
-		PLAYER(w)->pos.y = y;
-		CAM(w).y = y;
-	}
+	ray->x += ray->xa;
+	ray->y += ray->ya;
+	ray->mapos = ft_getpix(MAPLVL(e), ray->x / WALLSIZE, ray->y / WALLSIZE);
 }
 
-void	reculer(t_game *w)
+void	init_ray(t_game *e, t_ray *ray, int x)
 {
-	int x;
-	int y;
-	t_pixsdl pix;
-
-	x = PLAYER(w)->pos.x - CAM(w).dx;
-	y = PLAYER(w)->pos.y - CAM(w).dy;
-	pix = ft_getpix(MAPLVL(w), x, y);
-	if (pix.color != 0)
-	{
-		PLAYER(w)->pos.x = x;
-		CAM(w).x = x;
-		PLAYER(w)->pos.y = y;
-		CAM(w).y = y;
-	}
+	ray->rot = RAD(e->player->pos.rot) + (RAD(x) - (FOV(e) / 2));
+	ray->rot > 0.0000001 ? (ray->y = ((PLRPOS(e).y / WALLSIZE) * (WALLSIZE)) - 1) :\
+	(ray->y = (PLRPOS(e).y / WALLSIZE) * (WALLSIZE));
+	ray->x = (PLRPOS(e).x + (PLRPOS(e).y - ray->y)) / tan(ray->rot);
+	ray->mapos = ft_getpix(MAPLVL(e), ray->x / WALLSIZE, ray->y / WALLSIZE);
+	ray->xa = WALLSIZE / tan(ray->rot);
+	ray->rot > 0.0000001 ? (ray->ya = WALLSIZE) :\
+	(ray->ya = -WALLSIZE);
 }
 
-void	gauche(t_game *w)
+void	draw_it(t_game *e)
 {
-	int x;
-	int y;
-	t_pixsdl pix;
+	 unsigned int	x;
+	 t_ray			ray;
 
-	x = PLAYER(w)->pos.x - PLAYER(w)->plan.x;
-	y = PLAYER(w)->pos.y - PLAYER(w)->plan.y;
-	pix = ft_getpix(MAPLVL(w), x, y);
-	if (pix.color != 0)
-	{
-		PLAYER(w)->pos.x = x;
-		CAM(w).x = x;
-		PLAYER(w)->pos.y = y;
-		CAM(w).y = y;
-	}
+	 x = 0;
+	 while (x < WX(e))
+	 {
+		 init_ray(e, &ray, x);
+	//	 inc_ray(e, &ray);
+	//	 while (ray.mapos.color != 0)
+	//	 	inc_ray(e, &ray);
+		 printf("raypos : %e:%e \nray wallpos: %d:%d\nray inc : %e:%e\n", ray.x, ray.y, ray.mapos.x, ray.mapos.y, ray.xa, ray.ya);
+		 printf("player : %d:%d \nplayer wallpos: %d:%d\n", PLRPOS(e).x, PLRPOS(e).y, e->player->map.x, e->player->map.y);
+		 x++;
+	 }
 }
 
-void	droite(t_game *w)
+void	play_level(t_game *e)
 {
-	int x;
-	int y;
-	t_pixsdl pix;
-
-	x = PLAYER(w)->pos.x + PLAYER(w)->plan.x;
-	y = PLAYER(w)->pos.y + PLAYER(w)->plan.y;
-	pix = ft_getpix(MAPLVL(w), x, y);
-	if (pix.color != 0)
+	while ((!(e->sdl->key->echap)) && (!(e->inf->win)))
 	{
-		PLAYER(w)->pos.x = x;
-		CAM(w).x = x;
-		PLAYER(w)->pos.y = y;
-		CAM(w).y = y;
-	}
-}
-
-
-
-void	move(t_game *wolf)
-{
-	if (PLAYER(wolf)->dep[0])
-		avancer(wolf);
-	if (PLAYER(wolf)->dep[1])
-		reculer(wolf);
-	if (PLAYER(wolf)->dep[2])
-		gauche(wolf);
-	if (PLAYER(wolf)->dep[3])
-		droite(wolf);
-	printf("posplayer %d:%d\n", PLAYER(wolf)->pos.x, PLAYER(wolf)->pos.y);
-}
-
-void	play_level(t_game *wolf)
-{
-	wolf->player->dist = ((WINX(wolf->sdl) / 2) / tan(RAD(FOV / 2)));
-	while ((!(wolf->sdl->key->echap)) && (!(wolf->inf->win)))
-	{
-		draw_background(wolf);
-		print_wall(wolf);
-		ft_bzero(wolf->player->dep, 4);
-		ft_bzero(wolf->player->rot, 4);
-		SDL_UpdateWindowSurface(WIN(wolf->sdl, win));
-		ft_keyhook_sdl(wolf->sdl, wolf, ft_keyboard, ft_mouse);
-		move(wolf);
+		e->player->dist = DIST(e);
+		draw_background(e);
+		draw_it(e);
+		ft_bzero(e->player->dep, 4);
+		ft_bzero(e->player->rot, 4);
+		SDL_UpdateWindowSurface(WIN(e->sdl, win));
+		ft_keyhook_sdl(e->sdl, e, ft_keyboard, ft_mouse);
 	}
 }
 
@@ -229,7 +93,7 @@ int	main(int argc, char **argv)
 	if (argc && argv)
 	{
 		if (SDL_Init(SDL_INIT_EVERYTHING) > -1)
-			ft_launch_sdl(ft_wolf, 500, 500, 4);
+			ft_launch_sdl(ft_wolf, 100, 90, 4);
 		else
 		{
 			ft_putsterr("SDL Could not initialize\n");
