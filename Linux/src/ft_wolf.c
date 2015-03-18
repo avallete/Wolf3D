@@ -8,41 +8,147 @@ void	draw_background(t_game *wolf)
 	SDL_UnlockSurface(WIN(wolf->sdl, screen));
 }
 
-void	inc_ray(t_game *e, t_ray *ray)
+void	draw_wall(t_game *e, t_ray *r, int x)
 {
-	ray->x += ray->xa;
-	ray->y += ray->ya;
-	ray->mapos = ft_getpix(MAPLVL(e), ray->x / WALLSIZE, ray->y / WALLSIZE);
+	t_pixsdl b;
+	t_pixsdl end;
+	int		wallh;
+
+	if (r->side == 0)
+		r->dist = fabs((RMP(r).x - RP(r).x + (1 - r->incx) / 2) / RD(r).x);
+	else
+		r->dist = fabs((RMP(r).y - RP(r).y + (1 - r->incy) / 2) / RD(r).y);
+	wallh = abs(((int)(WY(e) / r->dist)));
+	b.x = x;
+	b.y = (-wallh / 2) + (WY(e) / 2);
+	if (b.y < 0)
+		b.y = 0;
+	end.x = x;
+	end.y = wallh / 2 + WY(e) / 2;
+	if (end.y >= (int)WY(e))
+		end.y = (int)WY(e) - 1;
+	if (r->side == 1)
+		b.color = 0xabcdef0;
+	else
+		b.color = 0xabcffff;
+	draw_line_sdl(WIN(e->sdl, screen), b, end);
 }
 
-void	init_ray(t_game *e, t_ray *ray, int x)
+void	inc_ray(t_game *e, t_ray *r)
 {
-	ray->rot = RAD(e->player->pos.rot) + (RAD(x) - (FOV(e) / 2));
-	ray->rot > 0.0000001 ? (ray->y = ((PLRPOS(e).y / WALLSIZE) * (WALLSIZE)) - 1) :\
-	(ray->y = (PLRPOS(e).y / WALLSIZE) * (WALLSIZE));
-	ray->x = (PLRPOS(e).x + (PLRPOS(e).y - ray->y)) / tan(ray->rot);
-	ray->mapos = ft_getpix(MAPLVL(e), ray->x / WALLSIZE, ray->y / WALLSIZE);
-	ray->xa = WALLSIZE / tan(ray->rot);
-	ray->rot > 0.0000001 ? (ray->ya = WALLSIZE) :\
-	(ray->ya = -WALLSIZE);
+	t_pixsdl test;
+	ft_getpix(e->level->map, &test, r->mapos.x, r->mapos.y);
+	if (test.color != 255)
+		r->stop = 1;
+	else
+	{
+	if (RSD(r).x < RSD(r).y)
+	{
+		RSD(r).x += RDT(r).x;
+		RMP(r).x += r->incx;
+		r->side = 0;
+	}
+	else
+	{
+		RSD(r).y += RDT(r).y;
+		RMP(r).y += r->incy;
+		r->side = 1;
+	}
+	ft_getpix(e->level->map, &test, r->mapos.x, r->mapos.y);
+	if (test.color != 255)
+		r->stop = 1;
+	}
+}
+
+void	init_ray(t_game *e, int x, t_ray *r)
+{
+	r->incx = 1;
+	r->incy = 1;
+	PLAYER(e)->cam.x = (2 * x) / ((double)(WX(e))) - 1;
+	r->pos.x = PLAYER(e)->pos.x;
+	r->pos.y = PLAYER(e)->pos.y;
+	r->dir.x = PLAYER(e)->dir.x + PLAYER(e)->plan.x * PLAYER(e)->cam.x;
+	r->dir.y = PLAYER(e)->dir.y + PLAYER(e)->plan.y * PLAYER(e)->cam.x;
+	r->mapos.x = (int)r->pos.x;
+	r->mapos.y = (int)r->pos.y;
+	r->dlt.y = sqrt(1.0 + (RD(r).x * RD(r).x) / (RD(r).y * RD(r).y));
+	r->dlt.x = sqrt(1.0 + (RD(r).y * RD(r).y) / (RD(r).x * RD(r).x));
+	RSD(r).x = (RMP(r).x + (1.0 - RP(r).x)) * RDT(r).x;
+	RSD(r).y = (RMP(r).y + (1.0 - RP(r).y)) * RDT(r).y;
+	RD(r).x < 0 ? (r->incx = -1), \
+	(RSD(r).x = (RP(r).x - RMP(r).x) * RDT(r).x) : 0;
+	RD(r).y < 0 ? (r->incy = -1), \
+	(RSD(r).y = (RP(r).y - RMP(r).y) * RDT(r).y) : 0;
+	r->stop = 0;
+	printf("rdir : %e:%e\n", r->dir.x, r->dir.y);
 }
 
 void	draw_it(t_game *e)
 {
-	 unsigned int	x;
-	 t_ray			ray;
+	unsigned int	x;
+	t_ray			h;
 
-	 x = 0;
-	 while (x < WX(e))
-	 {
-		 init_ray(e, &ray, x);
-	//	 inc_ray(e, &ray);
-	//	 while (ray.mapos.color != 0)
-	//	 	inc_ray(e, &ray);
-		 printf("raypos : %e:%e \nray wallpos: %d:%d\nray inc : %e:%e\n", ray.x, ray.y, ray.mapos.x, ray.mapos.y, ray.xa, ray.ya);
-		 printf("player : %d:%d \nplayer wallpos: %d:%d\n", PLRPOS(e).x, PLRPOS(e).y, e->player->map.x, e->player->map.y);
-		 x++;
-	 }
+	x = 0;
+	h.mapos.x = 0;
+	h.mapos.y = 0;
+	h.mapos.color = 0;
+	while (x < WX(e))
+	{
+		init_ray(e, x, &h);
+		if ((h.mapos.x >= 0 && h.mapos.x < LVX(e)) && h.mapos.y >= 0 && h.mapos.y < LVY(e))
+		{
+			while (!h.stop && (h.mapos.x >= 0 && h.mapos.x < LVX(e)) && h.mapos.y >= 0 && h.mapos.y < LVY(e))
+		 		inc_ray(e, &h);
+			draw_wall(e, &h, x);
+		}
+		x++;
+	}
+}
+
+void	move(t_game *e)
+{
+	t_pixsdl	testy;
+	t_nc		oldir;
+	t_nc		oldplan;
+
+	if (e->player->dep[0])
+	{
+		ft_getpix(e->level->map, &testy, PLRPOS(e).x + e->player->dir.x * 0.1, PLRPOS(e).y + e->player->dir.y * 0.1);
+		if (testy.color == 255)
+		{
+			e->player->pos.y += e->player->dir.y * 0.1;
+			e->player->pos.x += e->player->dir.x * 0.1;
+		}
+	}
+	if (e->player->dep[1])
+	{
+		ft_getpix(e->level->map, &testy, PLRPOS(e).x - e->player->dir.x * 1, PLRPOS(e).y - e->player->dir.y * 0.1);
+		if (testy.color == 255)
+		{
+			e->player->pos.y -= e->player->dir.y * 0.1;
+			e->player->pos.x -= e->player->dir.x * 0.1;
+		}
+	}
+	if (e->player->rot[1])
+	{
+		oldir.x = e->player->dir.x;
+		oldplan.x = e->player->plan.x;
+		e->player->dir.x = e->player->dir.x * cos(-0.1) - e->player->dir.y * sin(-0.1);
+		e->player->dir.y = oldir.x * sin(-0.1) + e->player->dir.y * cos(-0.1);
+		e->player->plan.x = e->player->plan.x * cos(-0.1) - e->player->plan.y * sin(-0.1);
+		e->player->plan.y = oldplan.x * sin(-0.1) + e->player->plan.y * cos(-0.1);
+	}
+	if (e->player->rot[0])
+	{
+		oldir.x = e->player->dir.x;
+		oldplan.x = e->player->plan.x;
+		e->player->dir.x = e->player->dir.x * cos(0.1) - e->player->dir.y * sin(0.1);
+		e->player->dir.y = oldir.x * sin(0.1) + e->player->dir.y * cos(0.1);
+		e->player->plan.x = e->player->plan.x * cos(0.1) - e->player->plan.y * sin(0.1);
+		e->player->plan.y = oldplan.x * sin(0.1) + e->player->plan.y * cos(0.1);
+	}
+	printf("plrpos : %e:%e\n", e->player->pos.x, e->player->pos.y);
+	printf("plrmpos : %d:%d\n", (int)e->player->pos.x, (int)e->player->pos.y);
 }
 
 void	play_level(t_game *e)
@@ -56,6 +162,7 @@ void	play_level(t_game *e)
 		ft_bzero(e->player->rot, 4);
 		SDL_UpdateWindowSurface(WIN(e->sdl, win));
 		ft_keyhook_sdl(e->sdl, e, ft_keyboard, ft_mouse);
+		move(e);
 	}
 }
 
@@ -93,7 +200,7 @@ int	main(int argc, char **argv)
 	if (argc && argv)
 	{
 		if (SDL_Init(SDL_INIT_EVERYTHING) > -1)
-			ft_launch_sdl(ft_wolf, 100, 90, 4);
+			ft_launch_sdl(ft_wolf, 500, 500, 4);
 		else
 		{
 			ft_putsterr("SDL Could not initialize\n");

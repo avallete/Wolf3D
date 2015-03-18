@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 10:33:11 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/12 10:33:13 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/15 14:32:00 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,15 @@ typedef	struct		s_envsdl
 **in argument. This function need to loop for window stay open.
 **The wx and wy is Hight and lenght of created window. bpp need to be 4
 */
-void	ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bpp);
+void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bp);
 
 /*
 **Two functions for events. First func just call the ptr function (like print)
 **Second function call _sdl_PollEvent and call func key for keyboard event
 **and mouse functions for mouse event.
 */
-void	ft_expose_sdl(t_envsdl *env, void (*f)(t_envsdl *env));
-void	ft_keyhook_sdl(t_envsdl *env, void *data, \
+void		ft_expose_sdl(t_envsdl *env, void (*f)(t_envsdl *env));
+void		ft_keyhook_sdl(t_envsdl *env, void *data, \
 		void (*key)(t_envsdl *env, SDL_Keysym c, void *data), \
 		void (*mouse)(t_envsdl *env, void *data));
 /*
@@ -87,16 +87,16 @@ void	ft_keyhook_sdl(t_envsdl *env, void *data, \
 */
 SDL_Surface	*ft_loadbmp_sdl(t_envsdl *env, const char *path);
 SDL_Rect	ft_newrect_sdl(int x, int y, size_t width, size_t hight);
-t_pixsdl	ft_getpix(SDL_Surface *img, int x, int y);
+int			ft_getpix(SDL_Surface *img, t_pixsdl *pix, int x, int y);
 
 /*
 ** Draw some stuf
 */
-void	draw_pix_sdl(SDL_Surface *surface, t_pixsdl *pix);
-void	draw_line_sdl(SDL_Surface *s, t_pixsdl start, t_pixsdl end);
+void		draw_pix_sdl(SDL_Surface *surface, t_pixsdl *pix);
+void		draw_line_sdl(SDL_Surface *s, t_pixsdl start, t_pixsdl end);
 
 /*
 ** Free all
 */
-void	ft_free_sdl(t_envsdl *sdl);
+void		ft_free_sdl(t_envsdl *sdl);
 #endif

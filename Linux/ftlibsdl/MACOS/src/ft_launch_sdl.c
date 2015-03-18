@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 09:25:04 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/12 10:31:32 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/15 14:35:03 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	init_window(t_envsdl *e, void (*f)(t_envsdl *env))
 	}
 }
 
-void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bpp)
+void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bp)
 {
 	t_envsdl	env;
 	t_winsdl	sur;
@@ -45,7 +45,7 @@ void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bpp)
 	sur.win = NULL;
 	sur.winx = wx;
 	sur.winy = wy;
-	sur.bpp = bpp;
+	sur.bpp = bp;
 	k.echap = 0;
 	env.surfaces = &sur;
 	env.key = &k;

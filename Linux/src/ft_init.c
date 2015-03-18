@@ -2,13 +2,16 @@
 
 void	init_player(t_player *player)
 {
-	player->pos.x = (4 * WALLSIZE) - (WALLSIZE / 2);
-	player->pos.y = (4 * WALLSIZE) - (WALLSIZE / 2);
-	player->pos.rot = 0;
-	player->map.x = 4;
-	player->map.y = 4;
+	player->fov = RAD(66);
+	player->pos.x = 15;
+	player->pos.y = 15;
+	player->dir.x = -1;
+	player->dir.y = 0;
+	player->plan.x = 0;
+	player->plan.y = RAD(66);
+	player->map.x = 15;
+	player->map.y = 15;
 	player->map.color = 0xfabcdef;
-	player->fov = RAD(60);
 	player->hight = WALLSIZE / 2;
 	ft_bzero(player->dep, 4);
 	ft_bzero(player->rot, 4);

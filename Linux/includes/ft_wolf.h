@@ -1,5 +1,7 @@
 #ifndef FT_WOLF_H
 # define FT_WOLF_H
+# define LVX(e) e->level->map->w
+# define LVY(e) e->level->map->h
 # define WX(e) WINX(e->sdl)
 # define WY(e) WINY(e->sdl)
 # define CX(e) WINX(e->sdl) / 2
@@ -10,7 +12,13 @@
 # define RAD(x)	(x * 0.017453292519943)
 # define PLAYER(e)	e->player
 # define PLRPOS(e)	e->player->pos
+# define PLRMPO(e)	e->player->map
 # define SKY(e)		e->level->sky
+# define RP(e)		e->pos
+# define RMP(e)		e->mapos
+# define RD(e)		e->dir
+# define RSD(e)		e->sd
+# define RDT(e)		e->dlt
 # define MAPLVL(e)	e->level->map
 # define FLOOR(e) 	e->level->floor
 # define DIST(e) ((WX(e) / (tan(RAD(e->player->fov / 2) * RAD(M_PI / 180)))))
@@ -26,25 +34,31 @@ typedef	struct				s_wall
 	int				size;
 }					t_wall;
 
+typedef	struct				s_nc
+{
+	double					x;
+	double					y;
+}							t_nc;
+
 typedef	struct				s_vec
 {
-	int				x;
-	int				y;
-	double			rot;
+	double				x;
+	double				y;
+	double				rot;
 }					t_vec;
 
 typedef	struct				s_ray
 {
-	double				x;
-	double				y;
+	t_nc				pos;
+	t_nc				dir;
 	t_pixsdl			mapos;
-	double				rot;
-	double				xa;
-	double				ya;
-	double				sdx;
-	double				sdy;
-	double				radinc;
+	t_nc				sd;
+	t_nc				dlt;
+	double				dist;
+	int					incx;
+	int					incy;
 	char				side;
+	char				stop;
 }					t_ray;
 
 typedef	struct		s_map
@@ -56,7 +70,10 @@ typedef	struct		s_map
 
 typedef	struct		s_player
 {
-	t_vec			pos;
+	t_nc			pos;
+	t_nc			dir;
+	t_nc			plan;
+	t_nc			cam;
 	t_pixsdl		map;
 	double			fov;
 	double			dist;
