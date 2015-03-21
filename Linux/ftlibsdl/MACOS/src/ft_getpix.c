@@ -30,7 +30,7 @@ int		ft_getpix(SDL_Surface *img, t_pixsdl *pix, int x, int y)
 		(p[1] << 8) | p[2])) : (pix->color = (p[0] | (p[1] << 8) | \
 		(p[2] << 16)));
 	else if (img->format->BytesPerPixel == 4)
-		pix->color = *p;
+		pix->color = *(Uint32*)p;
 	else
 		return (0);
 	return (1);

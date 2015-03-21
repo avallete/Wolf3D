@@ -78,8 +78,8 @@ typedef	struct		s_player
 	double			fov;
 	double			dist;
 	int				hight;
-	char			dep[4];
-	char			rot[4];
+	int			dep[4];
+	int			rot[4];
 }					t_player;
 
 typedef	struct		s_inf

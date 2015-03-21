@@ -8,7 +8,7 @@ void	init_player(t_player *player)
 	player->dir.x = -1;
 	player->dir.y = 0;
 	player->plan.x = 0;
-	player->plan.y = RAD(66);
+	player->plan.y = player->fov;
 	player->map.x = 15;
 	player->map.y = 15;
 	player->map.color = 0xfabcdef;

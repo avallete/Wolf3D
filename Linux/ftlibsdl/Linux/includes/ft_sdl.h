@@ -41,7 +41,7 @@ typedef	struct		s_pixsdl
 {
 	int				x;
 	int				y;
-	Uint32			color;
+	Uint32				color;
 }					t_pixsdl;
 
 typedef struct		s_keysdl

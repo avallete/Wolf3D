@@ -24,9 +24,9 @@ void	draw_pix_sdl(SDL_Surface *surface, t_pixsdl *pix)
 		{
 			SDL_LockSurface(surface);
 			pos = surface->pixels + place;
-			*pos = pix->color >> 16;
+			*pos = pix->color;
 			*(pos + 1) = pix->color >> 8;
-			*(pos + 2) = pix->color;
+			*(pos + 2) = pix->color >> 16;
 			SDL_UnlockSurface(surface);
 		}
 	}
