@@ -18,7 +18,8 @@ void	draw_wall(t_game *e, t_ray *r, int x)
 		r->dist = fabs((RMP(r).x - RP(r).x + (1 - r->incx) / 2) / RD(r).x);
 	else
 		r->dist = fabs((RMP(r).y - RP(r).y + (1 - r->incy) / 2) / RD(r).y);
-	wallh = abs(((int)(WY(e) / r->dist)));
+	wallh = abs((int)(WY(e) / r->dist));
+	wallh < 0 || wallh > (int)WX(e) ? (wallh = WX(e) - 1) : 0;
 	b.x = x;
 	b.y = (-wallh / 2) + (WY(e) / 2);
 	if (b.y < 0)
@@ -99,7 +100,7 @@ void	draw_it(t_game *e)
 		init_ray(e, x, &h);
 		if ((h.mapos.x >= 0 && h.mapos.x < LVX(e)) && h.mapos.y >= 0 && h.mapos.y < LVY(e))
 		{
-			while (!h.stop && (h.mapos.x >= 0 && h.mapos.x < LVX(e)) && h.mapos.y >= 0 && h.mapos.y < LVY(e))
+			while (!h.stop && (h.mapos.x >= 0 && h.mapos.x <= LVX(e)) && h.mapos.y >= 0 && h.mapos.y <= LVY(e))
 				inc_ray(e, &h);
 			draw_wall(e, &h, x);
 		}
