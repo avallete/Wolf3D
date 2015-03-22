@@ -36,9 +36,9 @@ typedef	struct				s_wall
 
 typedef	struct				s_nc
 {
-	double					x;
-	double					y;
-}							t_nc;
+	double				x;
+	double				y;
+}					t_nc;
 
 typedef	struct				s_vec
 {
@@ -55,13 +55,13 @@ typedef	struct				s_ray
 	t_nc				sd;
 	t_nc				dlt;
 	double				dist;
-	int					incx;
-	int					incy;
+	int				incx;
+	int				incy;
 	char				side;
 	char				stop;
 }					t_ray;
 
-typedef	struct		s_map
+typedef	struct			s_map
 {
 	SDL_Surface		*map;
 	SDL_Rect		floor;
@@ -95,6 +95,8 @@ typedef	struct		s_game
 	t_player		*player;
 	t_inf			*inf;
 	t_envsdl		*sdl;
+	controlf_t		func[6];
+	SDL_Joystick		*joy;
 }					t_game;
 
 /*
@@ -114,5 +116,6 @@ void			map_iter(t_map *map, t_game *wolf, Uint32 color, \
 ** Event functions
 */
 void			ft_mouse(t_envsdl *sdl, void *data);
-void			ft_keyboard(t_envsdl *sdl, SDL_Keysym k, void *data);
+void			ft_keyboard(t_envsdl *sdl, void *data);
+void			ft_controller(t_envsdl *sdl, void *data);
 #endif

@@ -1,9 +1,11 @@
 #include "ft_wolf.h"
 
-void	ft_keyboard(t_envsdl *sdl, SDL_Keysym k, void *data)
+void	ft_keyboard(t_envsdl *sdl, void *data)
 {
 	t_game *wolf;
+	SDL_Keysym k;
 
+	k = EVNT_KEY(sdl);
 	wolf = data;
 	if (wolf)
 		data = data;

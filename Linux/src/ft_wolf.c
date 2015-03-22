@@ -142,13 +142,14 @@ void	play_level(t_game *e)
 {
 	while ((!(e->sdl->key->echap)) && (!(e->inf->win)))
 	{
+		SDL_JoystickUpdate();
 		e->player->dist = DIST(e);
 		draw_background(e);
 		draw_it(e);
 		ft_bzero(e->player->dep, (sizeof(int)) * 4);
 		ft_bzero(e->player->rot, (sizeof(int)) * 4);
 		SDL_UpdateWindowSurface(WIN(e->sdl, win));
-		ft_keyhook_sdl(e->sdl, e, ft_keyboard, ft_mouse);
+		ft_keyhook_sdl(e->sdl, e, e->func);
 		move(e);
 	}
 }
@@ -170,9 +171,15 @@ void	ft_wolf(t_envsdl *sdl)
 
 	if (sdl)
 		wolf.player = &player;
+	wolf.joy = SDL_JoystickOpen(0);
+	SDL_JoystickEventState(SDL_ENABLE);
+	ft_printf("%d\n", SDL_NumJoysticks());
 	wolf.inf = &inf;
 	wolf.level = &map;
 	init_inf(wolf.inf);
+	wolf.func[0] = ft_keyboard;
+	wolf.func[1] = ft_mouse;
+	wolf.func[1] = ft_controller;
 	if (init_level(wolf.level, wolf.inf, sdl) > -1)
 	{
 		init_player(wolf.player);

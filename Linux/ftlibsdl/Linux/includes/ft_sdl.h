@@ -66,6 +66,8 @@ typedef	struct		s_envsdl
 	t_keysdl		*key;
 }					t_envsdl;
 
+typedef void		(*controlf_t)(t_envsdl *env, void *data);
+
 /*
 **The first function init and expose a window and she take a pointer function
 **in argument. This function need to loop for window stay open.
@@ -79,15 +81,14 @@ void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bp);
 **and mouse functions for mouse event.
 */
 void		ft_expose_sdl(t_envsdl *env, void (*f)(t_envsdl *env));
-void		ft_keyhook_sdl(t_envsdl *env, void *data, \
-		void (*key)(t_envsdl *env, SDL_Keysym c, void *data), \
-		void (*mouse)(t_envsdl *env, void *data));
+void		ft_keyhook_sdl(t_envsdl *env, void *data, controlf_t *f);
+
 /*
 ** Function for load/optimize stuff and check errors more easy
 */
 SDL_Surface	*ft_loadbmp_sdl(t_envsdl *env, const char *path);
 SDL_Rect	ft_newrect_sdl(int x, int y, size_t width, size_t hight);
-int			ft_getpix(SDL_Surface *img, t_pixsdl *pix, int x, int y);
+int		ft_getpix(SDL_Surface *img, t_pixsdl *pix, int x, int y);
 
 /*
 ** Draw some stuf
