@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/05 12:14:35 by avallete          #+#    #+#             */
-/*   Updated: 2014/11/08 19:16:53 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/23 18:07:48 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char			*ft_strtrim(char const *s)
 	int		e;
 	int		mode;
 
-	if ((s == NULL))
+	if (s == NULL)
 		return (NULL);
 	e = ft_strlen(s);
 	mode = -1;

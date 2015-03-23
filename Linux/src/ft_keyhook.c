@@ -8,7 +8,7 @@ void	ft_keyboard(t_envsdl *sdl, void *data)
 	k = EVNT_KEY(sdl);
 	wolf = data;
 	if (wolf)
-		data = data;
+		(void)data;
 	if (k.sym == SDLK_ESCAPE)
 		sdl->key->echap = 1;
 	if (k.sym == SDLK_w || k.sym == SDLK_s)
