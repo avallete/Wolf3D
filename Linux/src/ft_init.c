@@ -38,3 +38,11 @@ void	init_inf(t_inf *inf)
 	inf->level = 0;
 	inf->mappath = ft_strdup("res/levels/map0.bmp");
 }
+
+void	init_control_func(t_game *wolf)
+{
+	wolf->func[0] = ft_keyboard;
+	wolf->func[1] = ft_mouse;
+	wolf->func[2] = ft_controller;
+}
+

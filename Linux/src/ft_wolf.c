@@ -8,84 +8,6 @@ void	draw_background(t_game *wolf)
 	SDL_UnlockSurface(WIN(wolf->sdl, screen));
 }
 
-void	draw_wall(t_game *e, t_ray *r, int x)
-{
-	t_pixsdl b;
-	t_pixsdl end;
-	int		wallh;
-
-	if (r->side == 0)
-		r->dist = fabs((RMP(r).x - RP(r).x + (1 - r->incx) / 2) / RD(r).x);
-	else
-		r->dist = fabs((RMP(r).y - RP(r).y + (1 - r->incy) / 2) / RD(r).y);
-	wallh = abs((int)(WY(e) / r->dist));
-	wallh < 0 || wallh > (int)WX(e) ? (wallh = WX(e) - 1) : 0;
-	b.x = x;
-	b.y = (-wallh / 2) + (WY(e) / 2);
-	if (b.y < 0)
-		b.y = 0;
-	end.x = x;
-	end.y = wallh / 2 + WY(e) / 2;
-	if (end.y >= (int)WY(e))
-		end.y = (int)WY(e) - 1;
-	if (r->side == 1)
-		b.color = r->mapos.color;
-	else
-		b.color = r->mapos.color / 1.5;
-	draw_line_sdl(WIN(e->sdl, screen), b, end);
-}
-
-void	inc_ray(t_game *e, t_ray *r)
-{
-	t_pixsdl test;
-	ft_getpix(e->level->map, &test, r->mapos.x, r->mapos.y);
-	if (test.color != 0xffffff)
-		r->stop = 1;
-	else
-	{
-		if (RSD(r).x < RSD(r).y)
-		{
-			RSD(r).x += RDT(r).x;
-			RMP(r).x += r->incx;
-			r->side = 0;
-		}
-		else
-		{
-			RSD(r).y += RDT(r).y;
-			RMP(r).y += r->incy;
-			r->side = 1;
-		}
-		ft_getpix(e->level->map, &test, r->mapos.x, r->mapos.y);
-		if (test.color != 0xffffff)
-		{
-			r->stop = 1;
-			r->mapos.color = test.color;
-		}
-	}
-}
-
-void	init_ray(t_game *e, int x, t_ray *r)
-{
-	r->incx = 1;
-	r->incy = 1;
-	PLAYER(e)->cam.x = (2 * x) / ((double)(WX(e))) - 1;
-	r->pos.x = PLAYER(e)->pos.x;
-	r->pos.y = PLAYER(e)->pos.y;
-	r->dir.x = PLAYER(e)->dir.x + PLAYER(e)->plan.x * PLAYER(e)->cam.x;
-	r->dir.y = PLAYER(e)->dir.y + PLAYER(e)->plan.y * PLAYER(e)->cam.x;
-	r->mapos.x = (int)r->pos.x;
-	r->mapos.y = (int)r->pos.y;
-	r->dlt.y = sqrt(1.0 + (RD(r).x * RD(r).x) / (RD(r).y * RD(r).y));
-	r->dlt.x = sqrt(1.0 + (RD(r).y * RD(r).y) / (RD(r).x * RD(r).x));
-	RSD(r).x = (RMP(r).x + (1.0 - RP(r).x)) * RDT(r).x;
-	RSD(r).y = (RMP(r).y + (1.0 - RP(r).y)) * RDT(r).y;
-	RD(r).x < 0 ? (r->incx = -1), \
-				 (RSD(r).x = (RP(r).x - RMP(r).x) * RDT(r).x) : 0;
-	RD(r).y < 0 ? (r->incy = -1), \
-				 (RSD(r).y = (RP(r).y - RMP(r).y) * RDT(r).y) : 0;
-	r->stop = 0;
-}
-
 void	draw_it(t_game *e)
 {
 	unsigned int	x;
@@ -138,11 +60,23 @@ void	move(t_game *e)
 	}
 }
 
+void	init_joystick(t_game *e)
+{
+	if (SDL_NumJoysticks() > 0)
+	{
+		e->joy = SDL_JoystickOpen(0);
+		if (e->joy)
+		{
+			ft_printf("%s detected.\n", SDL_JoystickName(e->joy));
+			SDL_JoystickEventState(SDL_ENABLE);
+		}
+	}
+}
+
 void	play_level(t_game *e)
 {
 	while ((!(e->sdl->key->echap)) && (!(e->inf->win)))
 	{
-		SDL_JoystickUpdate();
 		e->player->dist = DIST(e);
 		draw_background(e);
 		draw_it(e);
@@ -158,6 +92,7 @@ void	play_it(t_game *game)
 {
 	while (!(game->sdl->key->echap))
 	{
+		init_joystick(game);
 		play_level(game);
 	}
 }
@@ -170,21 +105,18 @@ void	ft_wolf(t_envsdl *sdl)
 	t_map		map;
 
 	if (sdl)
-		wolf.player = &player;
-	wolf.joy = SDL_JoystickOpen(0);
-	SDL_JoystickEventState(SDL_ENABLE);
-	ft_printf("%d\n", SDL_NumJoysticks());
-	wolf.inf = &inf;
-	wolf.level = &map;
-	init_inf(wolf.inf);
-	wolf.func[0] = ft_keyboard;
-	wolf.func[1] = ft_mouse;
-	wolf.func[1] = ft_controller;
-	if (init_level(wolf.level, wolf.inf, sdl) > -1)
 	{
-		init_player(wolf.player);
-		wolf.sdl = sdl;
-		play_it(&wolf);
+		wolf.player = &player;
+		wolf.inf = &inf;
+		wolf.level = &map;
+		init_control_func(&wolf);
+		init_inf(wolf.inf);
+		if (init_level(wolf.level, wolf.inf, sdl) > -1)
+		{
+			init_player(wolf.player);
+			wolf.sdl = sdl;
+			play_it(&wolf);
+		}
 	}
 	ft_free_sdl(sdl);
 }

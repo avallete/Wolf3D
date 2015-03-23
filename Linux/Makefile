@@ -4,6 +4,7 @@ SRC_NAME:=	ft_wolf.c\
 		ft_keyhook.c\
    		ft_map.c\
     		ft_controller.c\
+		ft_rayfunc.c\
 		ft_mousehook.c
 
 INC_PATH=./includes/

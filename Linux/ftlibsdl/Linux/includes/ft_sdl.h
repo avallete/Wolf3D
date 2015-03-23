@@ -33,8 +33,8 @@
 # define CHK_MBUTON(e) (e == SDL_MOUSEBUTTONDOWN ? 1 : 0)
 # define CHK_MWHEL(e) (e == SDL_MOUSEWHEEL ? 1 : 0)
 # define CHK_MEVENT(e) (CHK_MWHEL(e) || CHK_MBUTON(e) || CHK_MMOTION(e) ? 1 : 0)
-# define CHK_CAXMOT(e) (e == SDL_CONTROLLERAXISMOTION ? 1 : 0)
-# define CHK_CBTDOW(e) (e == SDL_CONTROLLERBUTTONDOWN ? 1 : 0)
+# define CHK_CAXMOT(e) (e == SDL_CONTROLLERAXISMOTION  || e == SDL_JOYAXISMOTION ? 1 : 0)
+# define CHK_CBTDOW(e) (e == SDL_CONTROLLERBUTTONDOWN || e == SDL_JOYBUTTONDOWN ? 1 : 0)
 # define CHK_CEVENT(e) (CHK_CAXMOT(e) || CHK_CBTDOW(e) ? 1 : 0)
 
 typedef	struct		s_pixsdl

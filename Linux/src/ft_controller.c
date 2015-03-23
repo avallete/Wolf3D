@@ -12,8 +12,8 @@ void		ft_controller(t_envsdl *sdl, void *data)
 {
 	t_game *e;
 
-	e = (t_game*)data;
-	if (EVNT_T(sdl) == SDL_CONTROLLERAXISMOTION)
-		ft_axis(e);
 	ft_printf("wazaa\n");
+	e = (t_game*)data;
+	if (EVNT_T(sdl) == SDL_JOYAXISMOTION)
+		ft_axis(e);
 }

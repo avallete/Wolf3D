@@ -22,6 +22,7 @@ static void		check_eventype(t_envsdl *env, void *data, controlf_t *f)
 		f[1](env, data);
 	else if (CHK_CEVENT(EVNT_T(env)))
 		f[2](env, data);
+	ft_printf("%d\n", EVNT_T(env));
 }
 
 void			ft_keyhook_sdl(t_envsdl *env, void *data, controlf_t *f)

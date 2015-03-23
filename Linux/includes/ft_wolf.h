@@ -103,8 +103,9 @@ typedef	struct		s_game
 ** Init structures
 */
 void			init_inf(t_inf *inf);
-int				init_level(t_map *level, t_inf *inf, t_envsdl *sdl);
+int			init_level(t_map *level, t_inf *inf, t_envsdl *sdl);
 void			init_player(t_player *player);
+void			init_control_func(t_game *wolf);
 
 /*
 ** Map functions
@@ -118,4 +119,11 @@ void			map_iter(t_map *map, t_game *wolf, Uint32 color, \
 void			ft_mouse(t_envsdl *sdl, void *data);
 void			ft_keyboard(t_envsdl *sdl, void *data);
 void			ft_controller(t_envsdl *sdl, void *data);
+
+/*
+** Ray and wall drawing functions
+*/
+void			init_ray(t_game *e, int x, t_ray *r);
+void			inc_ray(t_game *e, t_ray *r);
+void			draw_wall(t_game *e, t_ray *r, int x);
 #endif
