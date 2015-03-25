@@ -2,7 +2,7 @@
 
 void	init_player(t_player *player)
 {
-	player->fov = RAD(66);
+	player->fov = RAD(60);
 	player->pos.x = 15;
 	player->pos.y = 15;
 	player->dir.x = -1;

@@ -16,9 +16,9 @@ void	init_ray(t_game *e, int x, t_ray *r)
 	RSD(r).x = (RMP(r).x + (1.0 - RP(r).x)) * RDT(r).x;
 	RSD(r).y = (RMP(r).y + (1.0 - RP(r).y)) * RDT(r).y;
 	RD(r).x < 0 ? (r->incx = -1), \
-				 (RSD(r).x = (RP(r).x - RMP(r).x) * RDT(r).x) : 0;
+							 (RSD(r).x = (RP(r).x - RMP(r).x) * RDT(r).x) : 0;
 	RD(r).y < 0 ? (r->incy = -1), \
-				 (RSD(r).y = (RP(r).y - RMP(r).y) * RDT(r).y) : 0;
+							 (RSD(r).y = (RP(r).y - RMP(r).y) * RDT(r).y) : 0;
 	r->stop = 0;
 }
 
@@ -47,6 +47,33 @@ void	inc_ray(t_game *e, t_ray *r)
 	}
 }
 
+static void	define_color(t_game *e, t_ray *r,  Uint32 *color)
+{
+	if (e)
+	{
+		if (r->dir.x >= 0)
+		{
+			if (r->side == 0)
+				*color = r->mapos.color;
+		}
+		else
+		{
+			if (r->side == 0)
+				*color = r->mapos.color / 2;
+		}
+		if (r->dir.y >= 0)
+		{
+			if (r->side == 1)
+				*color = r->mapos.color / 3;
+		}
+		else
+		{
+			if (r->side == 1)
+				*color = r->mapos.color / 4;
+		}
+	}
+}
+
 void	draw_wall(t_game *e, t_ray *r, int x)
 {
 	t_pixsdl b;
@@ -67,9 +94,6 @@ void	draw_wall(t_game *e, t_ray *r, int x)
 	end.y = wallh / 2 + WY(e) / 2;
 	if (end.y >= (int)WY(e))
 		end.y = (int)WY(e);
-	if (r->side == 1)
-		b.color = r->mapos.color;
-	else
-		b.color = r->mapos.color / 1.5;
+	define_color(e, r, &b.color);
 	draw_line_sdl(WIN(e->sdl, screen), b, end);
 }

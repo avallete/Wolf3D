@@ -94,7 +94,7 @@ int	main(int argc, char **argv)
 	if (argc && argv)
 	{
 		if (SDL_Init(SDL_INIT_EVERYTHING) > -1)
-			ft_launch_sdl(ft_wolf, 500, 500, 4);
+			ft_launch_sdl(ft_wolf, 800, 500, 4);
 		else
 		{
 			ft_putsterr("SDL Could not initialize\n");
