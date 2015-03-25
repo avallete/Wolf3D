@@ -30,36 +30,6 @@ void	draw_it(t_game *e)
 	}
 }
 
-void	move(t_game *e)
-{
-	t_pixsdl	testy;
-	t_nc		oldir;
-	t_nc		oldplan;
-	double		dirdep;
-	double		dirrot;
-
-	if (e->player->dep[0])
-	{
-		dirdep = 0.1 * e->player->dep[0];
-		ft_getpix(e->level->map, &testy, PLRPOS(e).x + e->player->dir.x * dirdep, PLRPOS(e).y + e->player->dir.y * dirdep);
-		if (testy.color == 0xffffff)
-		{
-			e->player->pos.y += e->player->dir.y * dirdep;
-			e->player->pos.x += e->player->dir.x * dirdep;
-		}
-	}
-	if (e->player->rot[0])
-	{
-		dirrot = 0.15 * e->player->rot[0];
-		oldir.x = e->player->dir.x;
-		oldplan.x = e->player->plan.x;
-		e->player->dir.x = e->player->dir.x * cos(dirrot) - e->player->dir.y * sin(dirrot);
-		e->player->dir.y = oldir.x * sin(dirrot) + e->player->dir.y * cos(dirrot);
-		e->player->plan.x = e->player->plan.x * cos(dirrot) - e->player->plan.y * sin(dirrot);
-		e->player->plan.y = oldplan.x * sin(dirrot) + e->player->plan.y * cos(dirrot);
-	}
-}
-
 void	init_joystick(t_game *e)
 {
 	if (SDL_NumJoysticks() > 0)
@@ -80,8 +50,6 @@ void	play_level(t_game *e)
 		e->player->dist = DIST(e);
 		draw_background(e);
 		draw_it(e);
-		ft_bzero(e->player->dep, (sizeof(int)) * 4);
-		ft_bzero(e->player->rot, (sizeof(int)) * 4);
 		SDL_UpdateWindowSurface(WIN(e->sdl, win));
 		ft_keyhook_sdl(e->sdl, e, e->func);
 		move(e);

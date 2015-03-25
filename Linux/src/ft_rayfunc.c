@@ -25,7 +25,7 @@ void	init_ray(t_game *e, int x, t_ray *r)
 void	inc_ray(t_game *e, t_ray *r)
 {
 	ft_getpix(e->level->map, &(r->mapos), r->mapos.x, r->mapos.y);
-	if (r->mapos.color != 0xffffff)
+	if (r->mapos.color != SPACE)
 		r->stop = 1;
 	else
 	{
@@ -42,7 +42,7 @@ void	inc_ray(t_game *e, t_ray *r)
 			r->side = 1;
 		}
 		ft_getpix(e->level->map, &(r->mapos), r->mapos.x, r->mapos.y);
-		if (r->mapos.color != 0xffffff)
+		if (r->mapos.color != SPACE)
 			r->stop = 1;
 	}
 }
@@ -58,7 +58,7 @@ void	draw_wall(t_game *e, t_ray *r, int x)
 	else
 		r->dist = fabs((RMP(r).y - RP(r).y + (1 - r->incy) / 2) / RD(r).y);
 	wallh = abs((int)(WY(e) / r->dist));
-	wallh < 0 || wallh > (int)WX(e) ? (wallh = WX(e) - 1) : 0;
+	wallh < 0 || wallh > (int)WX(e) ? (wallh = WX(e)) : 0;
 	b.x = x;
 	b.y = (-wallh / 2) + (WY(e) / 2);
 	if (b.y < 0)
@@ -66,7 +66,7 @@ void	draw_wall(t_game *e, t_ray *r, int x)
 	end.x = x;
 	end.y = wallh / 2 + WY(e) / 2;
 	if (end.y >= (int)WY(e))
-		end.y = (int)WY(e) - 1;
+		end.y = (int)WY(e);
 	if (r->side == 1)
 		b.color = r->mapos.color;
 	else

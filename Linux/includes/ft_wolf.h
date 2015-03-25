@@ -8,7 +8,7 @@
 # define CY(e) WINY(e->sdl) / 2
 # define WALL 0
 # define WALLSIZE 64
-# define SPACE 0xff
+# define SPACE 0xffffffff
 # define RAD(x)	(x * 0.017453292519943)
 # define PLAYER(e)	e->player
 # define PLRPOS(e)	e->player->pos
@@ -126,4 +126,9 @@ void			ft_controller(t_envsdl *sdl, void *data);
 void			init_ray(t_game *e, int x, t_ray *r);
 void			inc_ray(t_game *e, t_ray *r);
 void			draw_wall(t_game *e, t_ray *r, int x);
+
+/*
+** Player actions
+*/
+void	move(t_game *e);
 #endif

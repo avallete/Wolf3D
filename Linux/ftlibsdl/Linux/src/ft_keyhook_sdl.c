@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 09:24:43 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/12 10:27:12 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/25 16:37:23 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,11 @@ static void		check_eventype(t_envsdl *env, void *data, controlf_t *f)
 		f[1](env, data);
 	else if (CHK_CEVENT(EVNT_T(env)))
 		f[2](env, data);
-	ft_printf("%d\n", EVNT_T(env));
 }
 
 void			ft_keyhook_sdl(t_envsdl *env, void *data, controlf_t *f)
 {
-	if (SDL_WaitEvent(&(EVNT(env))) != 0)
-	{
+	while (SDL_PollEvent(&(env->key->events)) != 0)
 		check_eventype(env, data, f);
-		while (SDL_PollEvent(&(env->key->events)) != 0)
-			check_eventype(env, data, f);
-	}
+	SDL_Delay(15);
 }
