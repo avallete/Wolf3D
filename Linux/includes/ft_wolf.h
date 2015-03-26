@@ -80,6 +80,8 @@ typedef	struct		s_player
 	int				hight;
 	int			dep[4];
 	int			rot[4];
+	Uint32		cubecolor;
+	SDL_Rect	cube;
 }					t_player;
 
 typedef	struct		s_inf
@@ -106,6 +108,7 @@ void			init_inf(t_inf *inf);
 int			init_level(t_map *level, t_inf *inf, t_envsdl *sdl);
 void			init_player(t_player *player);
 void			init_control_func(t_game *wolf);
+void	ft_free_wolf(t_game *e);
 
 /*
 ** Map functions

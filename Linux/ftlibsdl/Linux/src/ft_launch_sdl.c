@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 09:25:04 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/15 14:35:03 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/26 12:10:36 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	init_window(t_envsdl *e, void (*f)(t_envsdl *env))
 		SDL_FillRect(WIN(e, screen), NULL, 0);
 		SDL_UpdateWindowSurface(WIN(e, win));
 		f(e);
+		ft_free_sdl(e);
 		SDL_DestroyWindow(WIN(e, win));
 		SDL_Quit();
 		return (0);

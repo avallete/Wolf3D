@@ -11,6 +11,7 @@ void	init_ray(t_game *e, int x, t_ray *r)
 	r->dir.y = PLAYER(e)->dir.y + PLAYER(e)->plan.y * PLAYER(e)->cam.x;
 	r->mapos.x = (int)r->pos.x;
 	r->mapos.y = (int)r->pos.y;
+	r->mapos.color = 0xff000000;
 	r->dlt.y = sqrt(1.0 + (RD(r).x * RD(r).x) / (RD(r).y * RD(r).y));
 	r->dlt.x = sqrt(1.0 + (RD(r).y * RD(r).y) / (RD(r).x * RD(r).x));
 	RSD(r).x = (RMP(r).x + (1.0 - RP(r).x)) * RDT(r).x;
@@ -49,6 +50,9 @@ void	inc_ray(t_game *e, t_ray *r)
 
 static void	define_color(t_game *e, t_ray *r,  Uint32 *color)
 {
+	Uint8 *colors;
+	colors = (Uint8*)&r->mapos.color;
+
 	if (e)
 	{
 		if (r->dir.x >= 0)
@@ -72,6 +76,7 @@ static void	define_color(t_game *e, t_ray *r,  Uint32 *color)
 				*color = r->mapos.color / 4;
 		}
 	}
+	color = r->mapos.color;
 }
 
 void	draw_wall(t_game *e, t_ray *r, int x)

@@ -13,8 +13,10 @@ void	init_player(t_player *player)
 	player->map.y = 15;
 	player->map.color = 0xfabcdef;
 	player->hight = WALLSIZE / 2;
+	player->cubecolor = 0xf1f2f3f4;
 	ft_bzero(player->dep, 4);
 	ft_bzero(player->rot, 4);
+	player->cube = ft_newrect_sdl(0, 0, 30, 30);
 }
 
 int	init_level(t_map *level, t_inf *inf, t_envsdl *sdl)

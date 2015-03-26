@@ -30,19 +30,6 @@ void	draw_it(t_game *e)
 	}
 }
 
-void	init_joystick(t_game *e)
-{
-	if (SDL_NumJoysticks() > 0)
-	{
-		e->joy = SDL_JoystickOpen(0);
-		if (e->joy)
-		{
-			ft_printf("%s detected.\n", SDL_JoystickName(e->joy));
-			SDL_JoystickEventState(SDL_ENABLE);
-		}
-	}
-}
-
 void	play_level(t_game *e)
 {
 	while ((!(e->sdl->key->echap)) && (!(e->inf->win)))
@@ -53,15 +40,6 @@ void	play_level(t_game *e)
 		SDL_UpdateWindowSurface(WIN(e->sdl, win));
 		ft_keyhook_sdl(e->sdl, e, e->func);
 		move(e);
-	}
-}
-
-void	play_it(t_game *game)
-{
-	while (!(game->sdl->key->echap))
-	{
-		init_joystick(game);
-		play_level(game);
 	}
 }
 
@@ -82,11 +60,13 @@ void	ft_wolf(t_envsdl *sdl)
 		if (init_level(wolf.level, wolf.inf, sdl) > -1)
 		{
 			init_player(wolf.player);
+			ft_bzero(wolf.player->dep, sizeof(int) * 4);
+			ft_bzero(wolf.player->rot, sizeof(int) * 4);
 			wolf.sdl = sdl;
-			play_it(&wolf);
+			play_level(&wolf);
+			ft_free_wolf(&wolf);
 		}
 	}
-	ft_free_sdl(sdl);
 }
 
 int	main(int argc, char **argv)
@@ -94,7 +74,7 @@ int	main(int argc, char **argv)
 	if (argc && argv)
 	{
 		if (SDL_Init(SDL_INIT_EVERYTHING) > -1)
-			ft_launch_sdl(ft_wolf, 800, 500, 4);
+			ft_launch_sdl(ft_wolf, 1920, 1080, 4);
 		else
 		{
 			ft_putsterr("SDL Could not initialize\n");
