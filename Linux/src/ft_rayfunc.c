@@ -50,9 +50,6 @@ void	inc_ray(t_game *e, t_ray *r)
 
 static void	define_color(t_game *e, t_ray *r,  Uint32 *color)
 {
-	Uint8 *colors;
-	colors = (Uint8*)&r->mapos.color;
-
 	if (e)
 	{
 		if (r->dir.x >= 0)
@@ -63,20 +60,19 @@ static void	define_color(t_game *e, t_ray *r,  Uint32 *color)
 		else
 		{
 			if (r->side == 0)
-				*color = r->mapos.color / 2;
+				*color = r->mapos.color / 1.1;
 		}
 		if (r->dir.y >= 0)
 		{
 			if (r->side == 1)
-				*color = r->mapos.color / 3;
+				*color = r->mapos.color / 1.2;
 		}
 		else
 		{
 			if (r->side == 1)
-				*color = r->mapos.color / 4;
+				*color = r->mapos.color / 1.3;
 		}
 	}
-	color = r->mapos.color;
 }
 
 void	draw_wall(t_game *e, t_ray *r, int x)
