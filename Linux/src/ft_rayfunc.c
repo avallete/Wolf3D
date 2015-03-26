@@ -60,17 +60,17 @@ static void	define_color(t_game *e, t_ray *r,  Uint32 *color)
 		else
 		{
 			if (r->side == 0)
-				*color = r->mapos.color / 1.1;
+				*color = r->mapos.color / 2;
 		}
 		if (r->dir.y >= 0)
 		{
 			if (r->side == 1)
-				*color = r->mapos.color / 1.2;
+				*color = r->mapos.color / 3;
 		}
 		else
 		{
 			if (r->side == 1)
-				*color = r->mapos.color / 1.3;
+				*color = r->mapos.color / 4;
 		}
 	}
 }

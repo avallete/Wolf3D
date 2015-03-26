@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_init.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/03/26 16:30:48 by avallete          #+#    #+#             */
+/*   Updated: 2015/03/26 16:37:08 by avallete         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_wolf.h"
 
 void	init_player(t_player *player)
@@ -46,5 +58,6 @@ void	init_control_func(t_game *wolf)
 	wolf->func[0] = ft_keyboard;
 	wolf->func[1] = ft_mouse;
 	wolf->func[2] = ft_controller;
+	wolf->joy = NULL;
 }
 

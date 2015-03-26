@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 10:33:11 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/25 17:43:45 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/26 16:55:02 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@
 # define CHK_MBUTON(e) (e == SDL_MOUSEBUTTONDOWN ? 1 : 0)
 # define CHK_MWHEL(e) (e == SDL_MOUSEWHEEL ? 1 : 0)
 # define CHK_MEVENT(e) (CHK_MWHEL(e) || CHK_MBUTON(e) || CHK_MMOTION(e) ? 1 : 0)
-# define CHK_CAXMOT(e) (e == SDL_CONTROLLERAXISMOTION  || e == SDL_JOYAXISMOTION ? 1 : 0)
-# define CHK_CBTDOW(e) (e == SDL_CONTROLLERBUTTONDOWN || e == SDL_JOYBUTTONDOWN ? 1 : 0)
-# define CHK_CEVENT(e) (CHK_CAXMOT(e) || CHK_CBTDOW(e) ? 1 : 0)
+# define CHK_CAXMOT(e) (e == SDL_JOYAXISMOTION ? 1 : 0)
+# define CHK_CBTDOW(e) (e == SDL_JOYBUTTONDOWN ? 1 : 0)
+# define CHK_CADD(e) (e == SDL_JOYDEVICEADDED ? 1 : 0)
+# define CHK_CEVENT(e) (CHK_CAXMOT(e) || CHK_CBTDOW(e) || CHK_CADD(e) ? 1 : 0)
 
 typedef	struct		s_pixsdl
 {
@@ -48,6 +49,7 @@ typedef struct		s_keysdl
 {
 	char			echap;
 	SDL_Event		events;
+	SDL_Joystick	*joy;
 }					t_keysdl;
 
 typedef struct		s_winsdl

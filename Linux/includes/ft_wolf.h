@@ -23,6 +23,7 @@
 # define FLOOR(e) 	e->level->floor
 # define DIST(e) ((WX(e) / (tan(RAD(e->player->fov / 2) * RAD(M_PI / 180)))))
 # define FOV(e)		e->player->fov
+# define JOYDZ		8000
 # include <stdio.h>
 # include "ft_sdl.h"
 # include <math.h>

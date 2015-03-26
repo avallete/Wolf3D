@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 09:25:04 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/26 12:10:36 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/26 17:31:34 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	init_window(t_envsdl *e, void (*f)(t_envsdl *env))
 {
 	WIN(e, win) = SDL_CreateWindow(WINNAME, SDL_WINDOWPOS_CENTERED,\
-	SDL_WINDOWPOS_CENTERED, WINX(e), WINY(e), SDL_WINDOW_SHOWN);
+			SDL_WINDOWPOS_CENTERED, WINX(e), WINY(e), SDL_WINDOW_SHOWN);
 	if ((WIN(e, win)))
 	{
 		WIN(e, screen) = SDL_GetWindowSurface(WIN(e, win));
@@ -35,6 +35,27 @@ static int	init_window(t_envsdl *e, void (*f)(t_envsdl *env))
 	}
 }
 
+static void		grep_joystick(t_envsdl *env)
+{
+	const char *map;
+
+	if (SDL_NumJoysticks() > 0)
+	{
+		ft_printf("Joystick %s detected\n", SDL_JoystickName(0));
+		env->key->joy = SDL_JoystickOpen(0);
+		if (env->key->joy)
+		{
+			ft_printf("Joystick 0 opened with sucess\n");
+			map = SDL_GameControllerMappingForGUID(\
+					SDL_JoystickGetGUID(env->key->joy));
+			if (SDL_GameControllerAddMapping(map))
+			{
+				SDL_JoystickEventState(SDL_ENABLE);
+			}
+		}
+	}
+}
+
 void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bp)
 {
 	t_envsdl	env;
@@ -48,7 +69,9 @@ void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bp)
 	sur.winy = wy;
 	sur.bpp = bp;
 	k.echap = 0;
+	k.joy = NULL;
 	env.surfaces = &sur;
 	env.key = &k;
+	grep_joystick(&env);
 	init_window(&env, f);
 }
