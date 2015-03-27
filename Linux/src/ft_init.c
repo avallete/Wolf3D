@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/26 16:30:48 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/27 14:55:58 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/27 16:30:56 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	init_player(t_player *player)
 	player->dir.y = 0;
 	player->plan.x = 0;
 	player->plan.y = player->fov;
-	player->map.x = 15;
-	player->map.y = 15;
-	player->map.color = 0xfabcdef;
+	player->map.x = (int)player->pos.x;
+	player->map.y = (int)player->pos.y;
+	player->map.color = 0xE74C3C;
 	player->hight = WALLSIZE / 2;
 	player->cubecolor = 0xf1f2f3f4;
 	ft_bzero(player->dep, 4);
@@ -53,6 +53,8 @@ void	init_inf(t_inf *inf)
 	inf->win = 0;
 	inf->level = 0;
 	inf->mappath = ft_strdup("res/levels/map0.bmp");
+	inf->scrspath = ft_strdup("res/scr/");
+	inf->nb = 0;
 }
 
 void	init_control_func(t_game *wolf)

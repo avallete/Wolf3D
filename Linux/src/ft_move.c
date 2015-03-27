@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/25 16:25:45 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/25 17:53:49 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/27 16:06:00 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	dep(t_game *e)
 			e->player->pos.y += e->player->dir.y * dir;
 		if (ft_checkpix(e, PLRPOS(e).x + e->player->dir.x * dir, PLRPOS(e).y))
 			e->player->pos.x += e->player->dir.x * dir;
+		e->player->map.x = (int)e->player->pos.x;
+		e->player->map.y = (int)e->player->pos.y;
 	}
 	if (e->player->dep[1])
 	{
@@ -41,6 +43,8 @@ static void	dep(t_game *e)
 			e->player->pos.y += e->player->plan.y * dir;
 		if (ft_checkpix(e, PLRPOS(e).x + e->player->plan.x * dir, PLRPOS(e).y))
 			e->player->pos.x += e->player->plan.x * dir;
+		e->player->map.x = (int)e->player->pos.x;
+		e->player->map.y = (int)e->player->pos.y;
 	}
 }
 

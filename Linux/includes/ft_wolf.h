@@ -23,10 +23,10 @@
 # define FLOOR(e) 	e->level->floor
 # define DIST(e) ((WX(e) / (tan(RAD(e->player->fov / 2) * RAD(M_PI / 180)))))
 # define FOV(e)		e->player->fov
-# define JOYDZ		8000
 # include <stdio.h>
 # include "ft_sdl.h"
 # include <math.h>
+# include <fcntl.h>
 
 typedef	struct				s_wall
 {
@@ -92,6 +92,8 @@ typedef	struct		s_inf
 	int				win;
 	int				level;
 	char			*mappath;
+	char			*scrspath;
+	int				nb;
 }					t_inf;
 
 typedef	struct		s_game

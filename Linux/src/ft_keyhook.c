@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/26 16:31:10 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/27 15:29:05 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/27 16:38:12 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,64 @@ void	create_map(t_game *e)
 		}
 		pix.y++;
 	}
+	e->level->mapview = ft_newrect_sdl(PLRMPO(e).x * size[0],\
+	PLRMPO(e).y * size[1], size[0], size[1]);
+	SDL_FillRect(WIN(e->sdl, screen), &(e->level->mapview), \
+	PLRMPO(e).color);
 	SDL_UnlockSurface(WIN(e->sdl, screen));
 	SDL_UpdateWindowSurface(WIN(e->sdl, win));
 	SDL_Delay(300);
+}
+
+int		test_filexist(char *path)
+{
+	int fd;
+
+	fd = 0;
+	if ((fd = open(path, O_RDONLY)) >= 0)
+	{
+		close(fd);
+		return (1);
+	}
+	return (0);
+}
+
+int		test_scrfile(t_game *e)
+{
+	char *path;
+	char *itoa;
+	char *tmp;
+	int ret;
+
+	itoa = ft_itoa(e->inf->nb);
+	tmp = ft_strjoin(itoa, ".bmp");
+	path = ft_strjoin(e->inf->scrspath, tmp);
+	ret = test_filexist(path);
+	free(itoa);
+	free(tmp);
+	free(path);
+	return (ret);
+}
+
+void	save_map(t_game *e)
+{
+	char *path;
+	char *itoa;
+	char *tmp;
+
+	while (test_scrfile(e))
+		e->inf->nb++;
+	itoa = ft_itoa(e->inf->nb);
+	tmp = ft_strjoin(itoa, ".bmp");
+	path = ft_strjoin(e->inf->scrspath, tmp);
+	if (SDL_SaveBMP(e->level->map, path) >= 0)
+		ft_printf("Save screenshot : %s\n", path);
+	else
+		ft_printf("Couldn't save screenshot : %s\n", path);
+	free(itoa);
+	free(tmp);
+	free(path);
+	SDL_Delay(500);
 }
 
 void	ft_keyboard(t_envsdl *sdl, void *data)
@@ -134,6 +189,8 @@ void	ft_keyboard(t_envsdl *sdl, void *data)
 		k.sym == SDLK_1 ? mod_cubecol(wolf, 0, -1, 0) : mod_cubecol(wolf, 0, 1, 0);
 	if (k.sym == SDLK_KP_7 || k.sym == SDLK_KP_9)
 		k.sym == SDLK_1 ? mod_cubecol(wolf, 0, 0, -1) : mod_cubecol(wolf, 0, 0, 1);
-	if (k.sym == SDLK_p )
+	if (k.sym == SDLK_p)
 		create_map(wolf);
+	if (EVNT_T(sdl) == SDL_KEYDOWN && k.sym == SDLK_y)
+		save_map(wolf);
 }
