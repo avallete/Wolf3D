@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 09:25:24 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/12 10:31:45 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/27 15:42:40 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ SDL_Surface	*ft_loadbmp_sdl(t_envsdl *env, const char *path)
 	optimize = NULL;
 	if (!(imgloaded = SDL_LoadBMP(path)))
 		ft_putsterr("Error Loading img\n");
-	if (!(optimize = SDL_ConvertSurface(imgloaded, \
+	else if (!(optimize = SDL_ConvertSurface(imgloaded, \
 				WIN(env, screen)->format, 0)))
 		ft_putsterr("Error Optimize\n");
 	if (imgloaded)

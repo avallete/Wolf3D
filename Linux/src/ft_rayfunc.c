@@ -48,33 +48,6 @@ void	inc_ray(t_game *e, t_ray *r)
 	}
 }
 
-static void	define_color(t_game *e, t_ray *r,  Uint32 *color)
-{
-	if (e)
-	{
-		if (r->dir.x >= 0)
-		{
-			if (r->side == 0)
-				*color = r->mapos.color;
-		}
-		else
-		{
-			if (r->side == 0)
-				*color = r->mapos.color / 2;
-		}
-		if (r->dir.y >= 0)
-		{
-			if (r->side == 1)
-				*color = r->mapos.color / 3;
-		}
-		else
-		{
-			if (r->side == 1)
-				*color = r->mapos.color / 4;
-		}
-	}
-}
-
 void	draw_wall(t_game *e, t_ray *r, int x)
 {
 	t_pixsdl b;
@@ -95,6 +68,6 @@ void	draw_wall(t_game *e, t_ray *r, int x)
 	end.y = wallh / 2 + WY(e) / 2;
 	if (end.y >= (int)WY(e))
 		end.y = (int)WY(e);
-	define_color(e, r, &b.color);
+	define_color(e, r, &b.color, e->player->col);
 	draw_line_sdl(WIN(e->sdl, screen), b, end);
 }

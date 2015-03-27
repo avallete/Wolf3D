@@ -3,8 +3,8 @@ SRC_NAME:=	ft_wolf.c\
 		ft_init.c\
 		ft_keyhook.c\
    		ft_map.c\
-		ft_controller.c\
     	ft_rayfunc.c\
+		ft_colors.c\
     	ft_move.c\
 		ft_free.c\
 		ft_mousehook.c

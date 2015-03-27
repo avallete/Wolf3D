@@ -67,6 +67,7 @@ typedef	struct			s_map
 	SDL_Surface		*map;
 	SDL_Rect		floor;
 	SDL_Rect		sky;
+	SDL_Rect		mapview;
 }					t_map;
 
 typedef	struct		s_player
@@ -81,6 +82,7 @@ typedef	struct		s_player
 	int				hight;
 	int			dep[4];
 	int			rot[4];
+	char		col;
 	Uint32		cubecolor;
 	SDL_Rect	cube;
 }					t_player;
@@ -122,7 +124,7 @@ void			map_iter(t_map *map, t_game *wolf, Uint32 color, \
 */
 void			ft_mouse(t_envsdl *sdl, void *data);
 void			ft_keyboard(t_envsdl *sdl, void *data);
-void			ft_controller(t_envsdl *sdl, void *data);
+void			define_color(t_game *e, t_ray *r,  Uint32 *color, char mode);
 
 /*
 ** Ray and wall drawing functions

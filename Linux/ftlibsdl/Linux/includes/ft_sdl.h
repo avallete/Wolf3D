@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 10:33:11 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/26 16:55:02 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/27 13:26:31 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define CHK_CBTDOW(e) (e == SDL_JOYBUTTONDOWN ? 1 : 0)
 # define CHK_CADD(e) (e == SDL_JOYDEVICEADDED ? 1 : 0)
 # define CHK_CEVENT(e) (CHK_CAXMOT(e) || CHK_CBTDOW(e) || CHK_CADD(e) ? 1 : 0)
+# define K_DELAY 15
 
 typedef	struct		s_pixsdl
 {

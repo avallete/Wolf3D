@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/26 16:30:48 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/26 16:37:08 by avallete         ###   ########.fr       */
+/*   Updated: 2015/03/27 14:55:58 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ void	init_player(t_player *player)
 	ft_bzero(player->dep, 4);
 	ft_bzero(player->rot, 4);
 	player->cube = ft_newrect_sdl(0, 0, 30, 30);
+	player->col = 0;
 }
 
 int	init_level(t_map *level, t_inf *inf, t_envsdl *sdl)
 {
+	level->map = NULL;
 	level->map = ft_loadbmp_sdl(sdl, inf->mappath);
 	level->floor = ft_newrect_sdl(0, WINY(sdl) / 2, WINX(sdl), \
 			WINY(sdl) / 2);
@@ -56,8 +58,11 @@ void	init_inf(t_inf *inf)
 void	init_control_func(t_game *wolf)
 {
 	wolf->func[0] = ft_keyboard;
-	wolf->func[1] = ft_mouse;
-	wolf->func[2] = ft_controller;
+	wolf->func[1] = NULL;
+	wolf->func[2] = NULL;
+	wolf->func[3] = NULL;
+	wolf->func[4] = NULL;
+	wolf->func[5] = NULL;
 	wolf->joy = NULL;
 }
 
