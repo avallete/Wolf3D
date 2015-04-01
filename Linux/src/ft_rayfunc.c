@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_rayfunc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/04/01 12:08:21 by avallete          #+#    #+#             */
+/*   Updated: 2015/04/01 12:09:41 by avallete         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_wolf.h"
 
 void	init_ray(t_game *e, int x, t_ray *r)
@@ -17,9 +29,9 @@ void	init_ray(t_game *e, int x, t_ray *r)
 	RSD(r).x = (RMP(r).x + (1.0 - RP(r).x)) * RDT(r).x;
 	RSD(r).y = (RMP(r).y + (1.0 - RP(r).y)) * RDT(r).y;
 	RD(r).x < 0 ? (r->incx = -1), \
-							 (RSD(r).x = (RP(r).x - RMP(r).x) * RDT(r).x) : 0;
+	(RSD(r).x = (RP(r).x - RMP(r).x) * RDT(r).x) : 0;
 	RD(r).y < 0 ? (r->incy = -1), \
-							 (RSD(r).y = (RP(r).y - RMP(r).y) * RDT(r).y) : 0;
+	(RSD(r).y = (RP(r).y - RMP(r).y) * RDT(r).y) : 0;
 	r->stop = 0;
 }
 
@@ -50,9 +62,9 @@ void	inc_ray(t_game *e, t_ray *r)
 
 void	draw_wall(t_game *e, t_ray *r, int x)
 {
-	t_pixsdl b;
-	t_pixsdl end;
-	int		wallh;
+	t_pixsdl	b;
+	t_pixsdl	end;
+	int			wallh;
 
 	if (r->side == 0)
 		r->dist = fabs((RMP(r).x - RP(r).x + (1 - r->incx) / 2) / RD(r).x);

@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 10:33:11 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/27 13:26:31 by avallete         ###   ########.fr       */
+/*   Updated: 2015/04/01 12:55:20 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef	struct		s_pixsdl
 {
 	int				x;
 	int				y;
-	Uint32				color;
+	Uint32			color;
 }					t_pixsdl;
 
 typedef struct		s_keysdl
@@ -69,38 +69,39 @@ typedef	struct		s_envsdl
 	t_keysdl		*key;
 }					t_envsdl;
 
-typedef void		(*controlf_t)(t_envsdl *env, void *data);
+typedef void	(*t_controlf)(t_envsdl *env, void *data);
 
 /*
 **The first function init and expose a window and she take a pointer function
 **in argument. This function need to loop for window stay open.
 **The wx and wy is Hight and lenght of created window. bpp need to be 4
 */
-void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bp);
+void				ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, \
+					size_t wy, int bp);
 
 /*
 **Two functions for events. First func just call the ptr function (like print)
 **Second function call _sdl_PollEvent and call func key for keyboard event
 **and mouse functions for mouse event.
 */
-void		ft_expose_sdl(t_envsdl *env, void (*f)(t_envsdl *env));
-void		ft_keyhook_sdl(t_envsdl *env, void *data, controlf_t *f);
+void				ft_expose_sdl(t_envsdl *env, void (*f)(t_envsdl *env));
+void				ft_keyhook_sdl(t_envsdl *env, void *data, t_controlf *f);
 
 /*
 ** Function for load/optimize stuff and check errors more easy
 */
-SDL_Surface	*ft_loadbmp_sdl(t_envsdl *env, const char *path);
-SDL_Rect	ft_newrect_sdl(int x, int y, size_t width, size_t hight);
-int		ft_getpix(SDL_Surface *img, t_pixsdl *pix, int x, int y);
+SDL_Surface			*ft_loadbmp_sdl(t_envsdl *env, const char *path);
+SDL_Rect			ft_newrect_sdl(int x, int y, size_t width, size_t hight);
+int					ft_getpix(SDL_Surface *img, t_pixsdl *pix, int x, int y);
 
 /*
 ** Draw some stuf
 */
-void		draw_pix_sdl(SDL_Surface *surface, t_pixsdl *pix);
-void		draw_line_sdl(SDL_Surface *s, t_pixsdl start, t_pixsdl end);
+void				draw_pix_sdl(SDL_Surface *surface, t_pixsdl *pix);
+void				draw_line_sdl(SDL_Surface *s, t_pixsdl start, t_pixsdl end);
 
 /*
 ** Free all
 */
-void		ft_free_sdl(t_envsdl *sdl);
+void				ft_free_sdl(t_envsdl *sdl);
 #endif

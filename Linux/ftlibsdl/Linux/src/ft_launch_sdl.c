@@ -6,13 +6,13 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/12 09:25:04 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/27 15:56:24 by avallete         ###   ########.fr       */
+/*   Updated: 2015/04/01 13:03:22 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sdl.h"
 
-static int	init_window(t_envsdl *e, void (*f)(t_envsdl *env))
+static int		init_window(t_envsdl *e, void (*f)(t_envsdl *env))
 {
 	WIN(e, win) = SDL_CreateWindow(WINNAME, SDL_WINDOWPOS_CENTERED,\
 			SDL_WINDOWPOS_CENTERED, WINX(e), WINY(e), SDL_WINDOW_SHOWN);
@@ -56,7 +56,8 @@ static void		grep_joystick(t_envsdl *env)
 	}
 }
 
-void		ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx, size_t wy, int bp)
+void			ft_launch_sdl(void (*f)(t_envsdl *e), size_t wx,\
+				size_t wy, int bp)
 {
 	t_envsdl	env;
 	t_winsdl	sur;

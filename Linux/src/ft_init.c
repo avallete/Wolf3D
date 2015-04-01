@@ -6,14 +6,19 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/26 16:30:48 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/27 16:30:56 by avallete         ###   ########.fr       */
+/*   Updated: 2015/04/01 12:49:41 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_wolf.h"
 
-void	init_player(t_player *player)
+void	init_player(t_player *player, t_map *level)
 {
+	t_pixsdl	init;
+
+	init.x = 15;
+	init.y = 15;
+	init.color = SPACE;
 	player->fov = RAD(60);
 	player->pos.x = 15;
 	player->pos.y = 15;
@@ -30,9 +35,10 @@ void	init_player(t_player *player)
 	ft_bzero(player->rot, 4);
 	player->cube = ft_newrect_sdl(0, 0, 30, 30);
 	player->col = 0;
+	draw_pix_sdl(level->map, &init);
 }
 
-int	init_level(t_map *level, t_inf *inf, t_envsdl *sdl)
+int		init_level(t_map *level, t_inf *inf, t_envsdl *sdl)
 {
 	level->map = NULL;
 	level->map = ft_loadbmp_sdl(sdl, inf->mappath);
@@ -67,4 +73,3 @@ void	init_control_func(t_game *wolf)
 	wolf->func[5] = NULL;
 	wolf->joy = NULL;
 }
-

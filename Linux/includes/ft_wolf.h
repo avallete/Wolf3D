@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_wolf.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/04/01 12:58:03 by avallete          #+#    #+#             */
+/*   Updated: 2015/04/01 12:58:41 by avallete         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_WOLF_H
 # define FT_WOLF_H
 # define LVX(e) e->level->map->w
@@ -28,41 +40,41 @@
 # include <math.h>
 # include <fcntl.h>
 
-typedef	struct				s_wall
+typedef	struct		s_wall
 {
 	int				x;
 	int				y;
 	int				size;
 }					t_wall;
 
-typedef	struct				s_nc
+typedef	struct		s_nc
 {
-	double				x;
-	double				y;
+	double			x;
+	double			y;
 }					t_nc;
 
-typedef	struct				s_vec
+typedef	struct		s_vec
 {
-	double				x;
-	double				y;
-	double				rot;
+	double			x;
+	double			y;
+	double			rot;
 }					t_vec;
 
-typedef	struct				s_ray
+typedef	struct		s_ray
 {
-	t_nc				pos;
-	t_nc				dir;
-	t_pixsdl			mapos;
-	t_nc				sd;
-	t_nc				dlt;
-	double				dist;
+	t_nc			pos;
+	t_nc			dir;
+	t_pixsdl		mapos;
+	t_nc			sd;
+	t_nc			dlt;
+	double			dist;
 	int				incx;
 	int				incy;
-	char				side;
-	char				stop;
+	char			side;
+	char			stop;
 }					t_ray;
 
-typedef	struct			s_map
+typedef	struct		s_map
 {
 	SDL_Surface		*map;
 	SDL_Rect		floor;
@@ -80,11 +92,11 @@ typedef	struct		s_player
 	double			fov;
 	double			dist;
 	int				hight;
-	int			dep[4];
-	int			rot[4];
-	char		col;
-	Uint32		cubecolor;
-	SDL_Rect	cube;
+	int				dep[4];
+	int				rot[4];
+	char			col;
+	Uint32			cubecolor;
+	SDL_Rect		cube;
 }					t_player;
 
 typedef	struct		s_inf
@@ -102,41 +114,45 @@ typedef	struct		s_game
 	t_player		*player;
 	t_inf			*inf;
 	t_envsdl		*sdl;
-	controlf_t		func[6];
-	SDL_Joystick		*joy;
+	t_controlf		func[6];
+	SDL_Joystick	*joy;
 }					t_game;
 
 /*
 ** Init structures
 */
-void			init_inf(t_inf *inf);
-int			init_level(t_map *level, t_inf *inf, t_envsdl *sdl);
-void			init_player(t_player *player);
-void			init_control_func(t_game *wolf);
-void	ft_free_wolf(t_game *e);
+void				init_inf(t_inf *inf);
+int					init_level(t_map *level, t_inf *inf, t_envsdl *sdl);
+void				init_player(t_player *player, t_map *level);
+void				init_control_func(t_game *wolf);
+void				ft_free_wolf(t_game *e);
 
 /*
 ** Map functions
 */
-void			map_iter(t_map *map, t_game *wolf, Uint32 color, \
-				void (*f)(t_pixsdl pix, t_game *wolf, t_map *map));
+void				map_iter(t_map *map, t_game *wolf, Uint32 color, \
+					void (*f)(t_pixsdl pix, t_game *wolf, t_map *map));
 
 /*
 ** Event functions
 */
-void			ft_mouse(t_envsdl *sdl, void *data);
-void			ft_keyboard(t_envsdl *sdl, void *data);
-void			define_color(t_game *e, t_ray *r,  Uint32 *color, char mode);
+void				ft_mouse(t_envsdl *sdl, void *data);
+void				ft_keyboard(t_envsdl *sdl, void *data);
+void				define_color(t_game *e, t_ray *r, Uint32\
+					*color, char mode);
+void				kcheck_wall_action(t_game *wolf, t_envsdl \
+					*sdl, SDL_Keysym k);
 
 /*
 ** Ray and wall drawing functions
 */
-void			init_ray(t_game *e, int x, t_ray *r);
-void			inc_ray(t_game *e, t_ray *r);
-void			draw_wall(t_game *e, t_ray *r, int x);
+void				init_ray(t_game *e, int x, t_ray *r);
+void				inc_ray(t_game *e, t_ray *r);
+void				draw_wall(t_game *e, t_ray *r, int x);
 
 /*
 ** Player actions
 */
-void	move(t_game *e);
+void				move(t_game *e);
+void				save_map(t_game *e);
 #endif

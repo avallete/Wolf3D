@@ -6,7 +6,7 @@
 /*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/25 16:25:45 by avallete          #+#    #+#             */
-/*   Updated: 2015/03/27 16:06:00 by avallete         ###   ########.fr       */
+/*   Updated: 2015/04/01 12:27:34 by avallete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int			ft_checkpix(t_game *e, int x, int y)
 	return (0);
 }
 
-static void	dep(t_game *e)
+static void			dep(t_game *e)
 {
 	double		dir;
 
@@ -38,7 +38,7 @@ static void	dep(t_game *e)
 	}
 	if (e->player->dep[1])
 	{
-		dir =  0.1 * e->player->dep[1];
+		dir = 0.1 * e->player->dep[1];
 		if (ft_checkpix(e, PLRPOS(e).x, PLRPOS(e).y + e->player->plan.y * dir))
 			e->player->pos.y += e->player->plan.y * dir;
 		if (ft_checkpix(e, PLRPOS(e).x + e->player->plan.x * dir, PLRPOS(e).y))
@@ -48,7 +48,7 @@ static void	dep(t_game *e)
 	}
 }
 
-static void	rot(t_game *e)
+static void			rot(t_game *e)
 {
 	t_nc		oldir;
 	t_nc		oldplan;
@@ -64,10 +64,9 @@ static void	rot(t_game *e)
 						e->player->plan.y * sin(dirrot);
 	e->player->plan.y = oldplan.x * sin(dirrot) +\
 						e->player->plan.y * cos(dirrot);
-
 }
 
-void	move(t_game *e)
+void				move(t_game *e)
 {
 	if (e->player->dep[0] || e->player->dep[1])
 		dep(e);

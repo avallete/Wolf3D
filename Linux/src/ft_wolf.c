@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_wolf.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avallete <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/04/01 12:06:04 by avallete          #+#    #+#             */
+/*   Updated: 2015/04/01 12:55:59 by avallete         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_wolf.h"
 
 void	draw_background(t_game *wolf)
@@ -20,9 +32,11 @@ void	draw_it(t_game *e)
 	while (x < WX(e))
 	{
 		init_ray(e, x, &h);
-		if ((h.mapos.x >= 0 && h.mapos.x < LVX(e)) && h.mapos.y >= 0 && h.mapos.y < LVY(e))
+		if ((h.mapos.x >= 0 && h.mapos.x < LVX(e)) && h.mapos.y >= 0 &&\
+				h.mapos.y < LVY(e))
 		{
-			while (!h.stop && (h.mapos.x >= 0 && h.mapos.x <= LVX(e)) && h.mapos.y >= 0 && h.mapos.y <= LVY(e))
+			while (!h.stop && (h.mapos.x >= 0 && h.mapos.x <= LVX(e)) \
+					&& h.mapos.y >= 0 && h.mapos.y <= LVY(e))
 				inc_ray(e, &h);
 			draw_wall(e, &h, x);
 		}
@@ -59,7 +73,7 @@ void	ft_wolf(t_envsdl *sdl)
 		init_inf(wolf.inf);
 		if (init_level(wolf.level, wolf.inf, sdl) > -1)
 		{
-			init_player(wolf.player);
+			init_player(wolf.player, wolf.level);
 			ft_bzero(wolf.player->dep, sizeof(int) * 4);
 			ft_bzero(wolf.player->rot, sizeof(int) * 4);
 			wolf.sdl = sdl;
@@ -69,7 +83,7 @@ void	ft_wolf(t_envsdl *sdl)
 	}
 }
 
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	if (argc && argv)
 	{
