@@ -7,6 +7,7 @@ SRC_NAME:=	ft_wolf.c\
 		ft_colors.c\
     	ft_move.c\
 		ft_free.c\
+		ft_screenshot.c\
 		ft_mousehook.c
 INC_PATH=./includes/
 INC_NAME=	libft.h\
@@ -23,7 +24,7 @@ INC=$(addprefix -I, $(INC_PATH))
 LIBSDL=-I ./SDL2.framework/Headers
 LIBFT:=-L ftlibsdl/libft -lftprintf
 LIBFTSDL:=-L ftlibsdl -lftsdl
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -pedantic
 CC=gcc
 NAME=Wolf3D
 RED=\033[0;31m
